@@ -3,18 +3,18 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 
 const Container = styled.div`
-  width: 80%;
+  width: 78%;
   height: 80%;
   display: flex;
   justify-self: flex-end;
   justify-content: space-between;
   align-items: space-between;
   flex-wrap: wrap;
-  border: 1px solid black;
-  margin-right: 3%;
+  margin: 2% 2% 0 0;
   a {
       text-decoration: none;
       color: black;
+      width: 100%;
   }
   .product-name {
       width: 100%;
@@ -23,16 +23,16 @@ const Container = styled.div`
 
 const Itemcard = styled.div`
   width: 16rem;
-  height: 25rem;
+  height: 27rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  border 1px solid black;
+  margin-bottom: 35px;
 `;
 const Itemimage = styled.img`
   width: 16rem;
-  height: 19rem;
+  height: 21rem;
   display: flex;
   align-items: center;
 `;
@@ -80,7 +80,7 @@ export default class Shop extends React.Component {
                 />
 
                 <Link to={`/item/${item.productId}`}>
-                    <p className="product-name">{item.productName.length >23 ? item.productName.slice(0,23)+ "..." : item.productName}</p>
+                    <p className="product-name">{item.productName.length >25 ? item.productName.slice(0,25)+ "..." : item.productName}</p>
                 </Link>
                 <p>Rs. {item.price}</p>
                 </Itemcard>

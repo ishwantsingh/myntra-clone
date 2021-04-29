@@ -3,13 +3,11 @@ import styled from "styled-components";
 
 const Container = styled.div`
   width: 15%;
-  height: 85vh;
+  height: 90vh;
   position: fixed;
-  top:15vh;
-  left:0px;
-  justify-self: flex-start;
-  align-self: flex-end;
-  border: 1px solid red;
+  top: 8vh;
+  left: 0px;
+  border-right: 1px solid #e1e0e0;
   a {
       text-decoration: none;
       color: black;
