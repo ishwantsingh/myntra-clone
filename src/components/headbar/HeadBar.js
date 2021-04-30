@@ -2,30 +2,33 @@ import React from "react";
 import styled from "styled-components";
 
 import logo from "../../assets/logo.png";
+import SearchBar from './SearchBar';
 
 const Container = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 8vh;
   display: flex;
   justify-self: flex-start;
   align-self: flex-start;
+  justify-content: space-between;
   border-bottom: 1px solid #e1e0e0;
   a {
       text-decoration: none;
       color: black;
   }
   #headbar {
-    width: 100%;
+    width: 30vw;
     height: 100%;
     display: flex;
     background-color: white;
     justify-content: flex-start;
     align-self: center;
+    margin-left: 2%;
   }
   .menu {
     color: black;
     font-size: 1.5rem;
-    width: 30%;
+    width: 100%;
     height: 100%;
     display: flex;
     margin: 0 0% 0 3%;
@@ -58,6 +61,12 @@ const Container = styled.div`
     border-bottom-width: 4px;
     transition: left .2s ease-out,border-color .5s ease-in;
   }
+  #searchbar {
+      width: 40vw;
+    margin-right: 8%;
+    display: flex;
+    justify-self: flex-end;
+  }
 `;
 
 
@@ -80,7 +89,14 @@ export default class HeadBar extends React.Component {
                     <div class="menu-item">KIDS</div>
                     <div class="menu-item wide">HOME {`&`} LIVING</div>
                     <div class="menu-item">BEAUTY</div>
-                </nav>  
+                </nav> 
+                {/* <div>
+                    input
+                </div>  */}
+            </section>
+            <section id="searchbar">
+                <SearchBar />
+
             </section>
         </Container>
       );
