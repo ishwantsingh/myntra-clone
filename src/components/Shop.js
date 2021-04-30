@@ -18,6 +18,26 @@ const Container = styled.div`
   }
   .product-name {
       width: 100%;
+      color: #9D9FA8;
+  }
+  .item-details-container {
+      width: 100%;
+      height: 6rem;
+      display: flex;
+      flex-direction: column;
+      justify-self: flex-start;
+      justify-content: space-evenly;
+      margin: 0 auto;
+  }
+  .item-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      justify-content: space-evenly;
+      height: 5rem;
+  }
+  p {
+      margin: 0;
   }
 `;
 
@@ -78,11 +98,13 @@ export default class Shop extends React.Component {
                     src={item.searchImage}
                     alt={item.productName}
                 />
-
-                <Link to={`/item/${item.productId}`}>
-                    <p className="product-name">{item.productName.length >25 ? item.productName.slice(0,25)+ "..." : item.productName}</p>
-                </Link>
-                <p>Rs. {item.price}</p>
+                <div className="item-details-container">
+                    <Link to={`/item/${item.productId}`} className="item-details">
+                        <p className="product-brand">{item.brand}</p>
+                        <p className="product-name">{item.additionalInfo.length >25 ? item.productName.slice(0,25)+ "..." : item.additionalInfo}</p>
+                        <p>Rs. {item.price}</p>
+                    </Link>
+                </div>
                 </Itemcard>
             ))}
             :p
