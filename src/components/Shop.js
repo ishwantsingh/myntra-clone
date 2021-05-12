@@ -10,7 +10,7 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: space-between;
   flex-wrap: wrap;
-  margin: 2% 2% 0 0;
+  margin: 12vh 2% 0 0;
   a {
       text-decoration: none;
       color: black;
