@@ -3,10 +3,10 @@ import React, { Component } from "react";
 import styled from 'styled-components';
 import { Switch, Route, Link  } from "react-router-dom";
 
-import Shop from "./components/Shop";
-import FilterBar from "./components/FilterBar";
+import Shop from "./components/shop/Shop";
+import FilterBar from "./components/filter/FilterBar";
 import HeadBar from "./components/headbar/HeadBar";
-import Item from "./components/Item";
+import Item from "./components/shop/Item";
 
 const Container = styled.div`
   width: 100%;

@@ -10,6 +10,7 @@ position: fixed;
 top: 0px;
 left: 0px;
 border-bottom: 1px solid #e1e0e0;
+z-index: 10000;
 `
 
 const Container = styled.div`
