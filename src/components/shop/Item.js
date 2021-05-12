@@ -2,6 +2,8 @@ import React from "react";
 import styled from 'styled-components';
 import { Switch, Route, Link  } from "react-router-dom";
 
+import star from "../../assets/star.png"
+
 const Container = styled.div`
   width: 100vw;
   height: 100%;
@@ -9,23 +11,23 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   margin: 8.1vh 2% 0 0vw;
-  padding: 0 0 0 12vw;
+  padding: 4vh 0 0 12vw;
   // margin: 12vh 2% 0 20vw;
   background-color: white;
   z-index: 1000;
   a {
-      text-decoration: none;
-      color: black;
-      width: 100%;
+    text-decoration: none;
+    color: black;
+    width: 100%;
   }
   .product-name {
-      width: 100%;
-      font-size: 2rem;
-      color: #9D9FA8;
+    width: 100%;
+    font-size: 1.7rem;
+    color: #9D9FA8;
   }
   .product-brand {
     font-weight: 600;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
   .item-details-container {
       width: 50%;
@@ -42,6 +44,52 @@ const Container = styled.div`
       justify-content: space-evenly;
       justify-content: space-evenly;
       height: 5rem;
+  }
+  .reviews {
+    display: flex;
+    flex-direction: row;
+    width: 11rem;
+    height: 2rem;
+    color: #535665;
+    border: 1px solid #E1E0E0;
+    padding: 3px 3px 3px 10px;
+    margin: 1rem 0 0 0;
+    border-radius: 4px;
+    font-weight: 500;
+    font-color: black;
+  }
+  .star-image {
+    display: flex;
+    align-self: flex-end;
+    margin: 0 6px 0 3px;
+    width: 20px;
+    height: 20px;
+  }
+  .price-details {
+    font-size: 1.5rem;
+    width: 35rem;
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 0 -3rem 0;
+    padding: 0.5rem 0 0 0;
+    align-items: baseline;
+    border-top: 1px solid #D4D5D9;
+  }
+  .display-price {
+    margin: 0 1rem 0 0;
+    font-weight: 600;
+  }
+  .max-price {
+    font-size: 1.3rem; 
+    font-weight: 600;
+    color: #9D9FA8;
+    text-decoration: line-through;
+    text-decoration-color: #535665;
+  }
+  .discount-price {
+    font-size: 1.3rem;
+    margin: 0 0 0 1rem;
+    color: #FF905A;
   }
   p {
       margin: 0;
@@ -76,7 +124,10 @@ const Itemimage = styled.img`
 function Item(props) {
   console.log(props.match.params.itemId);
   const item = props.items.find(item => `${item.productId}` === props.match.params.itemId);
-  console.log(item,"item");
+  console.log(item,"item", item.rating);
+  console.log(item,"item2",JSON.stringify(item.rating).length );
+  // console.log(item,"item3",item.rating);
+  // console.log(item,"item4", JSON.stringify(item.rating.slice(0,3)));
   if (!item) return <h2>No Item Found...</h2>;
   return (
         <Container>
@@ -94,7 +145,19 @@ function Item(props) {
               <div className="item-details">
                   <p className="product-brand">{item.brand}</p>
                   <p className="product-name">{item.additionalInfo.length >25 ? item.productName.slice(0,25)+ "..." : item.additionalInfo}</p>
-                  <p>Rs. {item.price}</p>
+                  
+                  <div className="reviews">
+                   {JSON.stringify(item.rating).length >3 ? JSON.stringify(item.rating).slice(0,3) : item.rating} <img src={star} className="star-image"/> |   {item.ratingCount} Reviews
+                  </div>
+                  
+                  <div className="price-details">
+                    <p className="display-price">Rs. {item.price}</p>
+
+                    <p className="max-price">Rs. {item.mrp}</p>
+
+                    <p className="discount-price">{item.discountDisplayLabel}</p>
+
+                  </div>
               </div>
           </div>
         </Container>
