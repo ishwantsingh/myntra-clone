@@ -57,63 +57,7 @@ const Itemimage = styled.img`
   align-items: center;
 `;
 
-// export default class Shop extends React.Component {
-//     constructor() {
-//       super();
-//       this.state = {
-//         apiLink: "https://demo7242716.mockable.io/products",
-//         items: []
-//       };
-//     }
-  
-//     componentDidMount() {
-//         fetch(this.state.apiLink, {
-//             method: 'GET',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//         })
-//         .then(res => {
-//             if (!res.ok) {
-//                 throw new Error('Network response was not ok');
-//             }
-//             return res.json();;
-//         })
-//         .then((data) => {
-//             console.log("response 2",data.products)
-//             this.setState({ items: data.products });
-//         })
-//         .catch(error => {
-//             console.error('There has been a problem with your fetch operation:', error);
-//           });
-//     }
-  
-//     render() {
-//         console.log(this.state.items,"2")
-//       return (
-//         <Container>
-//             {this.state.items.map(item => (
-//                 <Itemcard key={item.productId}>
-//                 <Itemimage
-//                     src={item.searchImage}
-//                     alt={item.productName}
-//                 />
-//                 <div className="item-details-container">
-//                     <Link to={`/item/${item.productId}`} className="item-details">
-//                         <p className="product-brand">{item.brand}</p>
-//                         <p className="product-name">{item.additionalInfo.length >25 ? item.productName.slice(0,25)+ "..." : item.additionalInfo}</p>
-//                         <p>Rs. {item.price}</p>
-//                     </Link>
-//                 </div>
-//                 </Itemcard>
-//             ))}
-//         </Container>
-//       );
-//     }
-//   }
-
-
-  export default function Shop(props) {
+export default function Shop(props) {
     return (
         <Container>
             {props.items.map(item => (
@@ -133,4 +77,4 @@ const Itemimage = styled.img`
             ))}
         </Container>
     );
-  }
+}
