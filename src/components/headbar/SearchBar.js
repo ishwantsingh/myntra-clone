@@ -94,7 +94,7 @@ function SearchBar(props) {
         <SearchInput
           type="text"
           placeholder="Search for products, brands and more"
-          onKeyDown={props.searchPosts}
+          onKeyDown={props.searchItems}
         />
       </StyledInput>
 

@@ -5,7 +5,7 @@ import logo from "../../assets/logo.png";
 import SearchBar from './SearchBar';
 
 const Container = styled.div`
-  width: 100vw;
+  width: 98vw;
   height: 8vh;
   display: flex;
   justify-self: flex-start;
@@ -70,35 +70,60 @@ const Container = styled.div`
 `;
 
 
-export default class HeadBar extends React.Component {
-    constructor() {
-      super();
-      this.state = {
-        
-      };
-    }
+// export default class HeadBar extends React.Component {
+//     constructor() {
+//       super();
+//       this.state = {
+//         items: [],
+//         searchItems: []
+//       };
+//     }
 
-    render() {
-      return (
+//     render() {
+//       return (
+//         <Container>
+//            <section id="headbar">
+//                 <nav className="menu ">
+//                     <img src={logo} className="logo" />
+//                     <div className="menu-item jsTest">MEN</div>
+//                     <div className="menu-item">WOMEN</div>
+//                     <div className="menu-item">KIDS</div>
+//                     <div className="menu-item wide">HOME {`&`} LIVING</div>
+//                     <div className="menu-item">BEAUTY</div>
+//                 </nav> 
+//                 {/* <div>
+//                     input
+//                 </div>  */}
+//             </section>
+//             <section id="searchbar">
+//                 <SearchBar />
+
+//             </section>
+//         </Container>
+//       );
+//     }
+//   }
+
+export default function HeadBar(props) {
+    return (
         <Container>
-           <section id="headbar">
-                <nav class="menu ">
+        <section id="headbar">
+                <nav className="menu ">
                     <img src={logo} className="logo" />
-                    <div class="menu-item jsTest">MEN</div>
-                    <div class="menu-item">WOMEN</div>
-                    <div class="menu-item">KIDS</div>
-                    <div class="menu-item wide">HOME {`&`} LIVING</div>
-                    <div class="menu-item">BEAUTY</div>
+                    <div className="menu-item jsTest">MEN</div>
+                    <div className="menu-item">WOMEN</div>
+                    <div className="menu-item">KIDS</div>
+                    <div className="menu-item wide">HOME {`&`} LIVING</div>
+                    <div className="menu-item">BEAUTY</div>
                 </nav> 
                 {/* <div>
                     input
                 </div>  */}
             </section>
             <section id="searchbar">
-                <SearchBar />
+                <SearchBar searchItems={props.searchItems}/>
 
             </section>
         </Container>
-      );
-    }
-  }
+    );
+}

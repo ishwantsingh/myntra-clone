@@ -1,4 +1,5 @@
 import './App.css';
+import React, { Component } from "react";
 import styled from 'styled-components';
 import { Switch, Route } from "react-router-dom";
 
@@ -23,17 +24,63 @@ const ShopContainer = styled.div`
   align-items: center;
 `;
 
-function App() {
-  return (
-    <Container>
-      <HeadBar />
-      <ShopContainer>
-        <FilterBar />
-        <Shop />
-      </ShopContainer>
-      
-    </Container>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log("constructor running");
+    this.state = {
+      apiLink: "https://demo7242716.mockable.io/products",
+      items: [],
+      searchItems: []
+    };
+  }
+
+  componentDidMount() {
+      fetch(this.state.apiLink, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+      })
+      .then(res => {
+          if (!res.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return res.json();;
+      })
+      .then((data) => {
+          console.log("response 2",data.products)
+          this.setState({ items: data.products });
+      })
+      .catch(error => {
+          console.error('There has been a problem with your fetch operation:', error);
+        });
+  }
+
+  searchItemHandler = e => {
+    console.log("search running", e.target.value);
+    let searchTerm = e.target.value;
+    const items = this.state.items.filter(item => {
+      return item.productName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+    });
+    this.setState({ searchItems: items });
+    console.log(this.state.searchItems);
+  };
+
+  render() {  
+    return (
+      <Container>
+        <HeadBar searchItems={this.searchItemHandler}/>
+        <ShopContainer>
+          <FilterBar />
+          <Shop items={ this.state.searchItems.length > 0
+                  ? this.state.searchItems
+                  : this.state.items}/>
+        </ShopContainer>
+        
+      </Container>
+    );
+  }
 }
 
 export default App;
