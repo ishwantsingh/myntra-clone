@@ -32,7 +32,9 @@ class App extends Component {
     this.state = {
       apiLink: "https://demo7242716.mockable.io/products",
       items: [],
-      searchItems: []
+      searchItems: [],
+      brands: [],
+      uniqueBrands: []
     };
   }
 
@@ -52,6 +54,12 @@ class App extends Component {
       .then((data) => {
           console.log("response 2",data.products)
           this.setState({ items: data.products });
+
+          data.products.map(product => {
+          this.setState({brands: [...this.state.brands, product.brand]})
+          })
+
+          this.setState({uniqueBrands: [...new Set(this.state.brands)]})
       })
       .catch(error => {
           console.error('There has been a problem with your fetch operation:', error);
@@ -73,7 +81,7 @@ class App extends Component {
       <Container>
         <HeadBar searchItems={this.searchItemHandler}/>
         <ShopContainer>
-          <FilterBar />
+          <FilterBar uniqueBrands={this.state.uniqueBrands}/>
 
           <Route exact path="/" render={(props) => (<Shop  {...props} items={ this.state.searchItems.length > 0
                   ? this.state.searchItems

@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import Filter from "./Filter"
+
 const Container = styled.div`
   width: 15vw;
   height: 90vh;
@@ -11,6 +13,9 @@ const Container = styled.div`
   a {
       text-decoration: none;
       color: black;
+  }
+  .brands-div {
+    height: 100%;
   }
 `;
 
@@ -26,7 +31,10 @@ export default class FilterBar extends React.Component {
     render() {
       return (
         <Container>
-            Filter Bar
+          <div className="brands-div">
+          <Filter uniqueBrands={this.props.uniqueBrands}/>
+
+          </div>
         </Container>
       );
     }
