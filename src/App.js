@@ -1,11 +1,12 @@
 import './App.css';
 import React, { Component } from "react";
 import styled from 'styled-components';
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Link  } from "react-router-dom";
 
 import Shop from "./components/Shop";
 import FilterBar from "./components/FilterBar";
 import HeadBar from "./components/headbar/HeadBar";
+import Item from "./components/Item";
 
 const Container = styled.div`
   width: 100%;
@@ -73,11 +74,18 @@ class App extends Component {
         <HeadBar searchItems={this.searchItemHandler}/>
         <ShopContainer>
           <FilterBar />
-          <Shop items={ this.state.searchItems.length > 0
+
+          <Route exact path="/" render={(props) => (<Shop  {...props} items={ this.state.searchItems.length > 0
                   ? this.state.searchItems
-                  : this.state.items}/>
+                  : this.state.items} />)} />
+
+          {/* <Shop items={ this.state.searchItems.length > 0
+                  ? this.state.searchItems
+                  : this.state.items}/> */}
+
+          <Route path="/item/:itemId" render={(props) => (<Item  {...props} items={this.state.items} />)} />
         </ShopContainer>
-        
+        {/* <Route path="/item/:itemId" render={(props) => (<Item  {...props} items={this.state.items} />)} /> */}
       </Container>
     );
   }

@@ -9,6 +9,7 @@ width: 100vw;
 position: fixed;
 top: 0px;
 left: 0px;
+border-bottom: 1px solid #e1e0e0;
 `
 
 const Container = styled.div`
@@ -18,7 +19,6 @@ const Container = styled.div`
   justify-self: flex-start;
   align-self: flex-start;
   justify-content: space-between;
-  border-bottom: 1px solid #e1e0e0;
   background-color: white;
   a {
       text-decoration: none;
