@@ -29,6 +29,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     console.log("constructor running");
+    this.filterPage = React.createRef();
+    // this.projectsChild = React.createRef();
+    // this.skillsChild = React.createRef();
+    // this.hobbiesChild = React.createRef();
     this.state = {
       apiLink: "https://demo7242716.mockable.io/products",
       items: [],
@@ -40,7 +44,9 @@ class App extends Component {
       categories: [],
       uniqueCategories: [],
       seasons: [],
-      uniqueSeasons: []
+      uniqueSeasons: [],
+      selectedFilter: [],
+      isClicked: false
     };
   }
 
@@ -82,12 +88,65 @@ class App extends Component {
     console.log(this.state.searchItems);
   };
 
+  filterItemHandler = (value, type, clicked) => {
+    console.log("state",this.state)
+    let searchTerm = value;
+    if(type ==="brand") {
+      this.setState({ value, selectedFilter: [...this.state.selectedFilter, value] })
+      let filter = [];
+      filter.push(value);
+      // this.state.selectedFilter.map(filter => {
+      filter.map(filter => {
+
+      console.log("1")
+
+        var items = this.state.items.filter(item => {
+          // return item.brand.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+          // return item.brand.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+          return item.brand.toLowerCase() === filter.toLowerCase();
+        console.log("2")
+        });
+        this.setState({ searchItems:  this.state.searchItems.concat(items) });
+
+        return items;
+      })
+      // this.setState({ searchItems:  items });
+      console.log("2state",this.state)
+
+      // const items = this.state.items.filter(item => {
+      //   // return item.brand.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+      //   return item.brand.toLowerCase().indexOf(this.state.selectedFilter.map(filter => filter.toLowerCase())) !== -1;
+      // });
+      // this.setState({ searchItems: items });
+    }
+    else if(type ==="category") {
+      const items = this.state.items.filter(item => {
+        return item.category.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+      });
+      this.setState({ searchItems: items });
+    }
+    else if(type ==="gender") {
+      const items = this.state.items.filter(item => {
+        return item.gender.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+      });
+      this.setState({ searchItems: items });
+    }
+    else if(type ==="season") {
+      const items = this.state.items.filter(item => {
+        return item.season.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+      });
+      this.setState({ searchItems: items });
+    }
+
+  };
+
   render() {  
+    console.log("st3",  this.state)
     return (
       <Container>
         <HeadBar searchItems={this.searchItemHandler}/>
         <ShopContainer>
-          <FilterBar uniqueBrands={this.state.uniqueBrands} uniqueGenders={this.state.uniqueGenders} uniqueCategories={this.state.uniqueCategories} uniqueSeasons={this.state.uniqueSeasons}/>
+          <FilterBar filterItemHandler={this.filterItemHandler} ref={this.filterPage} uniqueBrands={this.state.uniqueBrands} uniqueGenders={this.state.uniqueGenders} uniqueCategories={this.state.uniqueCategories} uniqueSeasons={this.state.uniqueSeasons}/>
 
           <Route exact path="/" render={(props) => (<Shop  {...props} items={ this.state.searchItems.length > 0
                   ? this.state.searchItems

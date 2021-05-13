@@ -68,28 +68,51 @@ export default class Filter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedBrands: []
+            selectedBrands: [],
+            selectedCategories: [],
+            selectedGenders: [],
+            selectedSeasons: [],
+
         };
         }
     
-    handleChange = (e, { value }) => this.setState({ value, selectedBrands: [...this.state.selectedBrands, value] })
+
+    handleChange = ( value ,type) => {
+        // e.preventDefault();
+        if(type ==="brand") {
+            this.setState({ value, selectedBrands: [...this.state.selectedBrands, value] })
+        }
+        else if(type ==="category") {
+            this.setState({ value, selectedCategories: [...this.state.selectedCategories, value] })
+        }
+        else if(type ==="gender") {
+            this.setState({ value, selectedGenders: [...this.state.selectedGenders, value] })
+        }
+        else if(type ==="season") {
+            this.setState({ value, selectedSeasons: [...this.state.selectedSeasons, value] })
+        }
+        // this.setState({ value, selectedBrands: [...this.state.selectedBrands, value] })
+        console.log(value,type,"23",this.state);
+      };
 
     render() {
-        console.log("state", this.props.uniqueBrands)
+        // console.log("state", this.props.options)
         return (
             // <div>
-                this.props.uniqueBrands.map(brand => {    
+                this.props.options.map(option => {    
                     return(
                         <Container>
                             <div className="brand-div">
                             <Form>
                                 <Form.Field>
                                     <Checkbox
-                                    label={`${brand}`}
+                                    label={`${option}`}
                                     name='brandGroup'
-                                    value={`${brand}`}
+                                    value={`${option}`}
                                     // checked={this.state.value === `${brand}`}
-                                    onChange={this.handleChange}
+                                    // onChange={() => this.handleChange(`${option}`, this.props.type)}
+                                    // onChange={() => this.props.filterItemHandler(`${option}`, this.props.type)}  
+                                    onClick={() => this.props.filterItemHandler(`${option}`, this.props.type,)}  
                                     />
                                 </Form.Field>
                             </Form>

@@ -102,6 +102,7 @@ export default function Shop(props) {
                 <div className="item-details-container">
                     <Link to={`/item/${item.productId}`} className="item-details">
                         <p className="product-brand">{item.brand}</p>
+                        {/* { console.log("shop", item.additionalInfo.length) } */}
                         <p className="product-name">{item.additionalInfo.length >25 ? item.productName.slice(0,25)+ "..." : item.additionalInfo}</p>
                         {/* <p>Rs. {item.price}</p> */}
                         <div className="price-details">
