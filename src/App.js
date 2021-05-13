@@ -34,7 +34,13 @@ class App extends Component {
       items: [],
       searchItems: [],
       brands: [],
-      uniqueBrands: []
+      uniqueBrands: [],
+      genders: [],
+      uniqueGenders: [],
+      categories: [],
+      uniqueCategories: [],
+      seasons: [],
+      uniqueSeasons: []
     };
   }
 
@@ -56,10 +62,10 @@ class App extends Component {
           this.setState({ items: data.products });
 
           data.products.map(product => {
-          this.setState({brands: [...this.state.brands, product.brand]})
+          this.setState({brands: [...this.state.brands, product.brand], genders: [...this.state.genders, product.gender],categories: [...this.state.categories, product.category], seasons: [...this.state.seasons, product.season] })
           })
 
-          this.setState({uniqueBrands: [...new Set(this.state.brands)]})
+          this.setState({uniqueBrands: [...new Set(this.state.brands)], uniqueGenders: [...new Set(this.state.genders)], uniqueCategories: [...new Set(this.state.categories)], uniqueSeasons: [...new Set(this.state.seasons)]})
       })
       .catch(error => {
           console.error('There has been a problem with your fetch operation:', error);
@@ -81,19 +87,14 @@ class App extends Component {
       <Container>
         <HeadBar searchItems={this.searchItemHandler}/>
         <ShopContainer>
-          <FilterBar uniqueBrands={this.state.uniqueBrands}/>
+          <FilterBar uniqueBrands={this.state.uniqueBrands} uniqueGenders={this.state.uniqueGenders} uniqueCategories={this.state.uniqueCategories} uniqueSeasons={this.state.uniqueSeasons}/>
 
           <Route exact path="/" render={(props) => (<Shop  {...props} items={ this.state.searchItems.length > 0
                   ? this.state.searchItems
                   : this.state.items} />)} />
 
-          {/* <Shop items={ this.state.searchItems.length > 0
-                  ? this.state.searchItems
-                  : this.state.items}/> */}
-
           <Route path="/item/:itemId" render={(props) => (<Item  {...props} items={this.state.items} />)} />
         </ShopContainer>
-        {/* <Route path="/item/:itemId" render={(props) => (<Item  {...props} items={this.state.items} />)} /> */}
       </Container>
     );
   }
