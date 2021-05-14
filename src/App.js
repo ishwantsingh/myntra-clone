@@ -79,64 +79,132 @@ class App extends Component {
   }
 
   searchItemHandler = e => {
-    console.log("search running", e.target.value);
     let searchTerm = e.target.value;
     const items = this.state.items.filter(item => {
       return item.productName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
     });
     this.setState({ searchItems: items });
-    console.log(this.state.searchItems);
   };
 
-  filterItemHandler = (value, type, clicked) => {
-    console.log("state",this.state)
-    let searchTerm = value;
-    if(type ==="brand") {
-      this.setState({ value, selectedFilter: [...this.state.selectedFilter, value] })
-      let filter = [];
-      filter.push(value);
-      // this.state.selectedFilter.map(filter => {
-      filter.map(filter => {
+  filterItemHandler = (e,value, type) => {
+    console.log("1state",this.state)
 
-      console.log("1")
+    // let searchTerm = value;
+    // if(type ==="brand" && e.target.checked) {
+    if(type ==="brand" ) {
+      var filter = this.state.selectedFilter;
 
-        var items = this.state.items.filter(item => {
-          // return item.brand.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
-          // return item.brand.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-          return item.brand.toLowerCase() === filter.toLowerCase();
-        console.log("2")
-        });
-        this.setState({ searchItems:  this.state.searchItems.concat(items) });
+      if(e.target.checked) {
+        this.setState({ value, selectedFilter: [...this.state.selectedFilter, value] });
+       
 
-        return items;
-      })
-      // this.setState({ searchItems:  items });
-      console.log("2state",this.state)
+        filter = [...filter, value];
+  
+        // filter.push(value);
+      }
+      else {
 
-      // const items = this.state.items.filter(item => {
-      //   // return item.brand.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
-      //   return item.brand.toLowerCase().indexOf(this.state.selectedFilter.map(filter => filter.toLowerCase())) !== -1;
-      // });
-      // this.setState({ searchItems: items });
+        let removeFilterIndex = this.state.selectedFilter.indexOf(value);
+        let removeFilterInd = filter.indexOf(value);
+
+
+        // this.setState({ value, selectedFilter: this.state.selectedFilter.splice(this.state.selectedFilter.indexOf(value),1) });
+
+        // this.setState({ value, selectedFilter: [...this.state.selectedFilter, value] });
+        console.log("selectedFilter2",this.state.selectedFilter)
+        console.log("selectedFilter1",filter)
+
+        // this.state.selectedFilter.splice(removeFilterIndex,1);
+
+
+        // var filter =  this.state.selectedFilter;
+        // filter = filter.splice(removeFilterInd);
+        filter = filter.filter(item => !value.includes(item))
+
+        console.log("selected2",removeFilterIndex)
+        console.log("selected1",removeFilterInd)
+
+        // this.state.selectedFilter.splice(removeFilterIndex);
+
+        this.setState({selectedFilter: filter});
+        
+        console.log("selectedFilter2",this.state.selectedFilter)
+
+        console.log("6 filter",filter)
+        // this.setState({ searchItems:  [] });
+        // filter.push(value);
+      }
+
+      if(filter.length > 0 ) {
+        let newFilterArray = [];
+
+        filter.map(filter => {
+
+          console.log("1",filter)
+          // this.setState({ searchItems:  [] });
+          var items = this.state.items.filter(item => {
+            return item.brand.toLowerCase() === filter.toLowerCase();
+          });
+          console.log("21",items)
+          newFilterArray = [...new Set([...newFilterArray,...items])]
+          // this.setState({ searchItems:  [...new Set([...this.state.searchItems,...items])] });
+          this.setState({ searchItems:  newFilterArray });
+      
+          return items;
+        })
+      } else {
+        this.setState({ searchItems:  [] });
+      }
+
     }
-    else if(type ==="category") {
-      const items = this.state.items.filter(item => {
-        return item.category.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
-      });
-      this.setState({ searchItems: items });
-    }
-    else if(type ==="gender") {
-      const items = this.state.items.filter(item => {
-        return item.gender.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
-      });
-      this.setState({ searchItems: items });
-    }
-    else if(type ==="season") {
-      const items = this.state.items.filter(item => {
-        return item.season.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
-      });
-      this.setState({ searchItems: items });
-    }
+
+    // else if(type ==="brand" && !e.target.checked) {
+
+    //   console.log("2state",this.state)
+
+    //   this.setState({ value, selectedFilter: this.state.selectedFilter.splice(this.state.selectedFilter.indexOf(value),1) });
+    //   let filter = this.state.selectedFilter;
+    //   filter.splice(this.state.selectedFilter.indexOf(value),1);
+
+    //   console.log("not checked", filter)
+
+    //   filter.map(filter => { 
+    //     console.log("not c2", filter)
+
+    //     // var items = this.state.items.filter(item => {
+    //     //   return item.brand.toLowerCase() === filter.toLowerCase();
+    //     // });
+    //     var items = this.state.searchItems.filter(item => {
+    //       return item.brand.toLowerCase() === filter.toLowerCase();
+    //     });
+    //     console.log("not c3", items)
+
+
+    //     this.setState({ searchItems:  [...new Set([...this.state.searchItems,...items])] });
+    //     return items;
+    //   })
+    //   console.log(this.state,"notchecked");
+
+    // }
+
+    // else if(type ==="category") {
+    //   const items = this.state.items.filter(item => {
+    //     return item.category.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+    //   });
+    //   this.setState({ searchItems: items });
+    // }
+    // else if(type ==="gender") {
+    //   const items = this.state.items.filter(item => {
+    //     return item.gender.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+    //   });
+    //   this.setState({ searchItems: items });
+    // }
+    // else if(type ==="season") {
+    //   const items = this.state.items.filter(item => {
+    //     return item.season.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+    //   });
+    //   this.setState({ searchItems: items });
+    // }
 
   };
 

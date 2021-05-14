@@ -68,32 +68,32 @@ export default class Filter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedBrands: [],
-            selectedCategories: [],
-            selectedGenders: [],
-            selectedSeasons: [],
+            // selectedBrands: [],
+            // selectedCategories: [],
+            // selectedGenders: [],
+            // selectedSeasons: [],
 
         };
         }
     
 
-    handleChange = ( value ,type) => {
-        // e.preventDefault();
-        if(type ==="brand") {
-            this.setState({ value, selectedBrands: [...this.state.selectedBrands, value] })
-        }
-        else if(type ==="category") {
-            this.setState({ value, selectedCategories: [...this.state.selectedCategories, value] })
-        }
-        else if(type ==="gender") {
-            this.setState({ value, selectedGenders: [...this.state.selectedGenders, value] })
-        }
-        else if(type ==="season") {
-            this.setState({ value, selectedSeasons: [...this.state.selectedSeasons, value] })
-        }
-        // this.setState({ value, selectedBrands: [...this.state.selectedBrands, value] })
-        console.log(value,type,"23",this.state);
-      };
+    // handleChange = ( e,value ,type) => {
+    //     // e.preventDefault();
+    //     if(type ==="brand") {
+    //         this.setState({ value, selectedBrands: [...this.state.selectedBrands, value] })
+    //     }
+    //     else if(type ==="category") {
+    //         this.setState({ value, selectedCategories: [...this.state.selectedCategories, value] })
+    //     }
+    //     else if(type ==="gender") {
+    //         this.setState({ value, selectedGenders: [...this.state.selectedGenders, value] })
+    //     }
+    //     else if(type ==="season") {
+    //         this.setState({ value, selectedSeasons: [...this.state.selectedSeasons, value] })
+    //     }
+    //     // this.setState({ value, selectedBrands: [...this.state.selectedBrands, value] })
+    //     console.log(value,type,"23",this.state);
+    //   };
 
     render() {
         // console.log("state", this.props.options)
@@ -112,7 +112,7 @@ export default class Filter extends Component {
                                     // checked={this.state.value === `${brand}`}
                                     // onChange={() => this.handleChange(`${option}`, this.props.type)}
                                     // onChange={() => this.props.filterItemHandler(`${option}`, this.props.type)}  
-                                    onClick={() => this.props.filterItemHandler(`${option}`, this.props.type,)}  
+                                    onClick={(e) => this.props.filterItemHandler(e,`${option}`, this.props.type )}  
                                     />
                                 </Form.Field>
                             </Form>
