@@ -126,65 +126,6 @@ class App extends Component {
             });
           }
 
-          // if(number == 0 && filter[1].length != 0  || filter[2].length != 0 || filter[3].length != 0) {
-          //   var items = this.state.searchItems.filter(item1 => {
-          //     console.log("32123",number, filter[number], filter[1], filter[2], filter[3])
-             
-          //     return filter[number].includes(item1[type]);
-          //   });
-    
-          // } else if( number == 0 && filter[1].length == 0 && filter[2].length == 0 && filter[3].length == 0) {
-          //   var items = this.state.items.filter(item1 => {
-          //     console.log("32123", filter[0])
-              
-          //     return filter[number].includes(item1[type]);
-          //   });
-          // }
-
-          // else if(number == 1 && filter[0].length != 0 || filter[2].length != 0 || filter[3].length != 0) {
-          //   var items = this.state.searchItems.filter(item1 => {
-          //     console.log("32123", filter[number])
-             
-          //     return filter[number].includes(item1[type]);
-          //   });
-    
-          // } else if( number == 1 && filter[0].length == 0 && filter[2].length == 0 && filter[3].length == 0) {
-          //   var items = this.state.items.filter(item1 => {
-          //     console.log("32123", filter[0])
-              
-          //     return filter[number].includes(item1[type]);
-          //   });
-          // }
-          // else if(number == 2 && filter[0].length != 0 || filter[1].length != 0 || filter[3].length != 0) {
-          //   var items = this.state.searchItems.filter(item1 => {
-          //     console.log("32123", filter[number])
-             
-          //     return filter[number].includes(item1[type]);
-          //   });
-    
-          // } else if( number == 2 && filter[0].length == 0 && filter[1].length == 0 && filter[3].length == 0) {
-          //   var items = this.state.items.filter(item1 => {
-          //     console.log("32123", filter[number])
-              
-          //     return filter[number].includes(item1[type]);
-          //   });
-          // }
-          // else if(number == 3 && filter[0].length != 0 || filter[1].length != 0 || filter[2].length != 0) {
-          //   var items = this.state.searchItems.filter(item1 => {
-          //     console.log("32123", filter[number])
-             
-          //     return filter[number].includes(item1[type]);
-          //   });
-    
-          // } else if( number == 3 && filter[0].length == 0 && filter[1].length == 0 && filter[2].length == 0) {
-          //   var items = this.state.items.filter(item1 => {
-          //     console.log("32123", filter[0])
-              
-          //     return filter[number].includes(item1[type]);
-          //   });
-          // }
-
-          
           newFilterArray = [...new Set([...newFilterArray,...items])];
           console.log("22",newFilterArray);
 
@@ -192,118 +133,6 @@ class App extends Component {
       
           return items;
       
-        // if(type == "brand") {
-      
-        //   filter[0].push(value);
-        //   console.log("34", value, filter[0],this.state.selectedFilter)
-
-        //   let newFilterArray = [];
-
-        //   if(filter[1] !==[] || filter[2] !== [] || filter[3] !== []) {
-        //     var items = this.state.searchItems.filter(item1 => {
-        //       console.log("32123", filter[0])
-             
-        //       return filter[0].includes(item1.brand);
-        //     });
-    
-        //   } else {
-        //     var items = this.state.items.filter(item1 => {
-        //       console.log("32123", filter[0])
-              
-        //       return filter[0].includes(item1.brand);
-        //     });
-        //   }
-          
-        //   newFilterArray = [...new Set([...newFilterArray,...items])];
-        //   console.log("22",newFilterArray);
-
-        //   this.setState({ searchItems:  newFilterArray });
-      
-        //   return items;
-        // }
-        // else if(type == "category") {
-         
-        //   filter[1].push(value);
-        //   let newFilterArray = [];
-
-        //   if(filter[0] !==[] || filter[2] !== [] || filter[3] !== []) {
-        //     var items = this.state.searchItems.filter(item1 => {
-        //       console.log("32123", filter[1])
-              
-        //       return filter[1].includes(item1.category);
-        //     });
-        //   }
-        //   else {
-        //     var items = this.state.items.filter(item1 => {
-        //       console.log("32123", filter[1])
-              
-        //       return filter[1].includes(item1.category);
-        //     });
-        //   }
-
-        //   newFilterArray = [...new Set([...newFilterArray,...items])];
-        //   console.log("22",newFilterArray);
-
-        //   if(newFilterArray !== []) {
-        //     this.setState({ searchItems:  newFilterArray });
-        //   } else if (this.state.searchItems === []) {
-        //     this.setState({ searchItems:  this.state.items });
-        //   }
-
-        //   return items;
-        // }
-        // else if(type == "gender") {
-        
-        //   filter[2].push(value);
-        //   let newFilterArray = [];
-
-        //   if(filter[0] !==[] || filter[1] !== [] || filter[3] !== []) {
-        //     var items = this.state.searchItems.filter(item1 => {
-        //       console.log("32123", filter[2])
-        //       return filter[2].includes(item1.gender);
-        //     });
-        //   } else {
-        //     var items = this.state.items.filter(item1 => {
-        //       console.log("32123", filter[2])
-        //       return filter[2].includes(item1.gender);
-        //     });
-        //   }
-          
-
-        //   newFilterArray = [...new Set([...newFilterArray,...items])];
-        //   console.log("22",newFilterArray);
-
-        //   this.setState({ searchItems:  newFilterArray });
-      
-        //   return items;
-        // }
-        // else if(type == "season") {
-         
-        //   filter[3].push(value);
-
-        //   let newFilterArray = [];
-        //   if(filter[0] !==[] || filter[1] !== [] || filter[2] !== []) {
-        //     var items = this.state.searchItems.filter(item1 => {
-        //       console.log("32123", filter[3])
-            
-        //       return filter[3].includes(item1.season);
-        //     });
-        //   } else {
-        //     var items = this.state.items.filter(item1 => {
-        //       console.log("32123", filter[3])
-            
-        //       return filter[3].includes(item1.season);
-        //     });
-        //   }
-       
-
-        //   newFilterArray = [...new Set([...newFilterArray,...items])];
-        //   console.log("22",newFilterArray);
-
-        //   this.setState({ searchItems:  newFilterArray });
-      
-        //   return items;
-        // }
       }
       else {
 
@@ -495,14 +324,6 @@ class App extends Component {
         this.setState({selectedFilter: filter});
 
       }
-
-      // if(filter.length > 0 ) {
-      
-      //     console.log("1",filter);
-
-      // } else {
-      //   this.setState({ searchItems:  [] });
-      // }
 
   };
 
