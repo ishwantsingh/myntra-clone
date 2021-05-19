@@ -136,190 +136,237 @@ class App extends Component {
       }
       else {
 
-        if(type == "brand") {
-          console.log("poo",filter[0], filter)
+        console.log("poo",filter[0], filter)
 
-          filter[0] = filter[0].filter(item => {
-          if(filter[0].length == 1 ) {
-            return false;
-          } else {
-           return !value.includes(item);
-          } 
-          });
+        filter[number] = filter[number].filter(item => {
+        if(filter[number].length == 1 ) {
+          return false;
+        } else {
+         return !value.includes(item);
+        } 
+        });
 
 
-          console.log("boo",filter[0], filter)
+        console.log("boo",filter[number], filter)
+
+ 
+        let doAsyncStuff = () => {
+          return Promise.resolve()
+        }
+
+        let filter1 = async (arr, callback) => {
+          const fail = Symbol()
+          return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
+        }
+       
+        // The helper function
+    
+          (async () => {
+            let newFilterArray = [];
+
+            var items = await filter1(this.state.items, async item1 => {
+              console.log("32123", filter[number])
+              await doAsyncStuff();
+              if(filter[number] ) {
+                return filter[number].includes(item1.brand);
+              } else {
+                return null;
+              }
+              
+            });
+  
+            newFilterArray = [...new Set([...newFilterArray,...items])];
+            console.log("22",newFilterArray);
+
+            this.setState({ searchItems:  newFilterArray });
+      
+            return items;
+          })()
+
+        // if(type == "brand") {
+        //   console.log("poo",filter[0], filter)
+
+        //   filter[0] = filter[0].filter(item => {
+        //   if(filter[0].length == 1 ) {
+        //     return false;
+        //   } else {
+        //    return !value.includes(item);
+        //   } 
+        //   });
+
+
+        //   console.log("boo",filter[0], filter)
 
    
-          let doAsyncStuff = () => {
-            return Promise.resolve()
-          }
+        //   let doAsyncStuff = () => {
+        //     return Promise.resolve()
+        //   }
 
-          let filter1 = async (arr, callback) => {
-            const fail = Symbol()
-            return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
-          }
+        //   let filter1 = async (arr, callback) => {
+        //     const fail = Symbol()
+        //     return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
+        //   }
          
-          // The helper function
+        //   // The helper function
       
-            (async () => {
-              let newFilterArray = [];
+        //     (async () => {
+        //       let newFilterArray = [];
 
-              var items = await filter1(this.state.items, async item1 => {
-                console.log("32123", filter[0])
-                await doAsyncStuff();
-                if(filter[0] ) {
-                  return filter[0].includes(item1.brand);
-                } else {
-                  return null;
-                }
+        //       var items = await filter1(this.state.items, async item1 => {
+        //         console.log("32123", filter[0])
+        //         await doAsyncStuff();
+        //         if(filter[0] ) {
+        //           return filter[0].includes(item1.brand);
+        //         } else {
+        //           return null;
+        //         }
                 
-              });
+        //       });
     
-              newFilterArray = [...new Set([...newFilterArray,...items])];
-              console.log("22",newFilterArray);
+        //       newFilterArray = [...new Set([...newFilterArray,...items])];
+        //       console.log("22",newFilterArray);
   
-              this.setState({ searchItems:  newFilterArray });
+        //       this.setState({ searchItems:  newFilterArray });
         
-              return items;
-            })()
-        }
-        else if(type == "category") {        
+        //       return items;
+        //     })()
+        // }
+        // else if(type == "category") {        
           
-          filter[1] = filter[1].filter(item => {
-            if(filter[1].length == 1 ) {
-              return false;
-            } else {
-             return !value.includes(item);
-            } 
-            }); 
+        //   filter[1] = filter[1].filter(item => {
+        //     if(filter[1].length == 1 ) {
+        //       return false;
+        //     } else {
+        //      return !value.includes(item);
+        //     } 
+        //     }); 
 
 
-            console.log("boo",filter[1], filter)
+        //     console.log("boo",filter[1], filter)
   
      
-            let doAsyncStuff = () => {
-              return Promise.resolve()
-            }
+        //     let doAsyncStuff = () => {
+        //       return Promise.resolve()
+        //     }
   
-            let filter1 = async (arr, callback) => {
-              const fail = Symbol()
-              return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
-            }
+        //     let filter1 = async (arr, callback) => {
+        //       const fail = Symbol()
+        //       return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
+        //     }
            
-              (async () => {
-                let newFilterArray = [];
+        //       (async () => {
+        //         let newFilterArray = [];
   
-                var items = await filter1(this.state.items, async item1 => {
-                  console.log("32123", filter[1])
-                  await doAsyncStuff();
-                  if(filter[1] ) {
-                    return filter[1].includes(item1.category);
-                  } else {
-                    return null;
-                  }
+        //         var items = await filter1(this.state.items, async item1 => {
+        //           console.log("32123", filter[1])
+        //           await doAsyncStuff();
+        //           if(filter[1] ) {
+        //             return filter[1].includes(item1.category);
+        //           } else {
+        //             return null;
+        //           }
                   
-                });
+        //         });
                 
-                newFilterArray = [...new Set([...newFilterArray,...items])];
-                console.log("22",newFilterArray);
+        //         newFilterArray = [...new Set([...newFilterArray,...items])];
+        //         console.log("22",newFilterArray);
     
-                this.setState({ searchItems:  newFilterArray });
+        //         this.setState({ searchItems:  newFilterArray });
           
-                return items;
-              })()
+        //         return items;
+        //       })()
       
-        }
-        else if(type == "gender") {
+        // }
+        // else if(type == "gender") {
 
-          filter[2] = filter[2].filter(item => {
-            if(filter[2].length == 1 ) {
-              return false;
-            } else {
-             return !value.includes(item);
-            } 
-            }); 
+        //   filter[2] = filter[2].filter(item => {
+        //     if(filter[2].length == 1 ) {
+        //       return false;
+        //     } else {
+        //      return !value.includes(item);
+        //     } 
+        //     }); 
 
 
-            console.log("boo",filter[2], filter)
+        //     console.log("boo",filter[2], filter)
   
      
-            let doAsyncStuff = () => {
-              return Promise.resolve()
-            }
+        //     let doAsyncStuff = () => {
+        //       return Promise.resolve()
+        //     }
   
-            let filter1 = async (arr, callback) => {
-              const fail = Symbol()
-              return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
-            }
+        //     let filter1 = async (arr, callback) => {
+        //       const fail = Symbol()
+        //       return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
+        //     }
            
-              (async () => {
-                let newFilterArray = [];
+        //       (async () => {
+        //         let newFilterArray = [];
   
-                var items = await filter1(this.state.items, async item1 => {
-                  console.log("32123", filter[2])
-                  await doAsyncStuff();
-                  if(filter[2] ) {
-                    return filter[2].includes(item1.gender);
-                  } else {
-                    return null;
-                  }
+        //         var items = await filter1(this.state.items, async item1 => {
+        //           console.log("32123", filter[2])
+        //           await doAsyncStuff();
+        //           if(filter[2] ) {
+        //             return filter[2].includes(item1.gender);
+        //           } else {
+        //             return null;
+        //           }
                   
-                });
+        //         });
                 
-                newFilterArray = [...new Set([...newFilterArray,...items])];
-                console.log("22",newFilterArray);
+        //         newFilterArray = [...new Set([...newFilterArray,...items])];
+        //         console.log("22",newFilterArray);
     
-                this.setState({ searchItems:  newFilterArray });
+        //         this.setState({ searchItems:  newFilterArray });
           
-                return items;
-              })()
-        }
-        else if(type == "season") {
+        //         return items;
+        //       })()
+        // }
+        // else if(type == "season") {
 
-          filter[3] = filter[3].filter(item => {
-            if(filter[3].length == 1 ) {
-              return false;
-            } else {
-             return !value.includes(item);
-            } 
-            }); 
+        //   filter[3] = filter[3].filter(item => {
+        //     if(filter[3].length == 1 ) {
+        //       return false;
+        //     } else {
+        //      return !value.includes(item);
+        //     } 
+        //     }); 
 
 
-            console.log("boo",filter[3], filter)
+        //     console.log("boo",filter[3], filter)
   
      
-            let doAsyncStuff = () => {
-              return Promise.resolve()
-            }
+        //     let doAsyncStuff = () => {
+        //       return Promise.resolve()
+        //     }
   
-            let filter1 = async (arr, callback) => {
-              const fail = Symbol()
-              return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
-            }
+        //     let filter1 = async (arr, callback) => {
+        //       const fail = Symbol()
+        //       return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
+        //     }
            
         
-              (async () => {
-                let newFilterArray = [];
+        //       (async () => {
+        //         let newFilterArray = [];
   
-                var items = await filter1(this.state.items, async item1 => {
-                  console.log("32123", filter[3])
-                  await doAsyncStuff();
-                  if(filter[3] ) {
-                    return filter[3].includes(item1.season);
-                  } else {
-                    return null;
-                  }  
-                });
+        //         var items = await filter1(this.state.items, async item1 => {
+        //           console.log("32123", filter[3])
+        //           await doAsyncStuff();
+        //           if(filter[3] ) {
+        //             return filter[3].includes(item1.season);
+        //           } else {
+        //             return null;
+        //           }  
+        //         });
       
-                newFilterArray = [...new Set([...newFilterArray,...items])];
-                console.log("22",newFilterArray);
+        //         newFilterArray = [...new Set([...newFilterArray,...items])];
+        //         console.log("22",newFilterArray);
     
-                this.setState({ searchItems:  newFilterArray });
+        //         this.setState({ searchItems:  newFilterArray });
           
-                return items;
-              })()
-        }
+        //         return items;
+        //       })()
+        // }
 
         this.setState({selectedFilter: filter});
 
