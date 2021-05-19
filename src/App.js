@@ -7,6 +7,7 @@ import Shop from "./components/shop/Shop";
 import FilterBar from "./components/filter/FilterBar";
 import HeadBar from "./components/headbar/HeadBar";
 import Item from "./components/shop/Item";
+import { ItemMeta } from 'semantic-ui-react';
 
 const Container = styled.div`
   width: 100%;
@@ -89,46 +90,100 @@ class App extends Component {
     this.setState({ searchItems: items });
   };
 
-  filterItemHandler = (e,value, type) => {
+  filterItemHandler = (e,value, type,number) => {
     console.log("1state",this.state)
 
-    // if(type ==="brand" ) {
       var filter = this.state.selectedFilter;
 
       if(e.target.checked) {
-        //     this.setState({ value, selectedFilter: [...this.state.selectedFilter,  {value,type}] });
-        // filter = [...filter, {value,type}];
 
-        if(type == "brand") {
-          // this.setState({ value, selectedFilter: [...this.state.selectedFilter, {brand: value}] });
-          // this.setState({ selectedFilter: [...this.state.selectedFilter, this.state.selectedFilter[0].push(value)] });
-          // filter = [...filter, {"brand": value}];
-
-          // filter[0] = { ...filter[0], brand: value};
-          filter[0].push(value);
-          console.log("34", value, filter[0],this.state.selectedFilter)
+          filter[number].push(value);
+          console.log("34", value, filter[number],this.state.selectedFilter)
 
           let newFilterArray = [];
 
-          if(filter[1] !==[] || filter[2] !== [] || filter[3] !== []) {
-            var items = this.state.searchItems.filter(item1 => {
+          var count = 0;
+
+          for(let i=0; i<4; i++) {
+            if(filter[i].length == 0) {
+              count = count;
+            }  else {
+              count++;
+            } 
+            console.log("count", count) 
+          }
+          if(count < 2) {
+            var items = this.state.items.filter(item1 => {
               console.log("32123", filter[0])
-              // filter[0].map(item => 
-              //   {
-              //     return item1.brand.toLowerCase() ===  item.toLowerCase();
-  
-              //   })
-              // return item.brand.toLowerCase() === filter["brand"].toLowerCase() ;
-              return filter[0].includes(item1.brand);
+              
+              return filter[number].includes(item1[type]);
             });
+          } else {
+            var items = this.state.searchItems.filter(item1 => {
+              console.log("32123",number, filter[number], filter[1], filter[2], filter[3])
+             
+              return filter[number].includes(item1[type]);
+            });
+          }
+
+          // if(number == 0 && filter[1].length != 0  || filter[2].length != 0 || filter[3].length != 0) {
+          //   var items = this.state.searchItems.filter(item1 => {
+          //     console.log("32123",number, filter[number], filter[1], filter[2], filter[3])
+             
+          //     return filter[number].includes(item1[type]);
+          //   });
     
-          } else {
-            var items = this.state.items.filter(item1 => {
-              console.log("32123", filter[0])
+          // } else if( number == 0 && filter[1].length == 0 && filter[2].length == 0 && filter[3].length == 0) {
+          //   var items = this.state.items.filter(item1 => {
+          //     console.log("32123", filter[0])
               
-              return filter[0].includes(item1.brand);
-            });
-          }
+          //     return filter[number].includes(item1[type]);
+          //   });
+          // }
+
+          // else if(number == 1 && filter[0].length != 0 || filter[2].length != 0 || filter[3].length != 0) {
+          //   var items = this.state.searchItems.filter(item1 => {
+          //     console.log("32123", filter[number])
+             
+          //     return filter[number].includes(item1[type]);
+          //   });
+    
+          // } else if( number == 1 && filter[0].length == 0 && filter[2].length == 0 && filter[3].length == 0) {
+          //   var items = this.state.items.filter(item1 => {
+          //     console.log("32123", filter[0])
+              
+          //     return filter[number].includes(item1[type]);
+          //   });
+          // }
+          // else if(number == 2 && filter[0].length != 0 || filter[1].length != 0 || filter[3].length != 0) {
+          //   var items = this.state.searchItems.filter(item1 => {
+          //     console.log("32123", filter[number])
+             
+          //     return filter[number].includes(item1[type]);
+          //   });
+    
+          // } else if( number == 2 && filter[0].length == 0 && filter[1].length == 0 && filter[3].length == 0) {
+          //   var items = this.state.items.filter(item1 => {
+          //     console.log("32123", filter[number])
+              
+          //     return filter[number].includes(item1[type]);
+          //   });
+          // }
+          // else if(number == 3 && filter[0].length != 0 || filter[1].length != 0 || filter[2].length != 0) {
+          //   var items = this.state.searchItems.filter(item1 => {
+          //     console.log("32123", filter[number])
+             
+          //     return filter[number].includes(item1[type]);
+          //   });
+    
+          // } else if( number == 3 && filter[0].length == 0 && filter[1].length == 0 && filter[2].length == 0) {
+          //   var items = this.state.items.filter(item1 => {
+          //     console.log("32123", filter[0])
+              
+          //     return filter[number].includes(item1[type]);
+          //   });
+          // }
+
           
           newFilterArray = [...new Set([...newFilterArray,...items])];
           console.log("22",newFilterArray);
@@ -136,102 +191,119 @@ class App extends Component {
           this.setState({ searchItems:  newFilterArray });
       
           return items;
-        }
-        else if(type == "category") {
-          // this.setState({ value, selectedFilter: [...this.state.selectedFilter, {category: value}] });
-          // this.setState({ value, selectedFilter: [...this.state.selectedFilter, this.state.selectedFilter[1].push(value)] });
-          // filter = [...filter, {"category": value}];
-
-          // filter[0] = { ...filter[0], category: value};
-          filter[1].push(value);
-          let newFilterArray = [];
-
-          if(filter[0] !==[] || filter[2] !== [] || filter[3] !== []) {
-            var items = this.state.searchItems.filter(item1 => {
-              console.log("32123", filter[1])
-              
-              return filter[1].includes(item1.category);
-            });
-          }
-          else {
-            var items = this.state.items.filter(item1 => {
-              console.log("32123", filter[1])
-              
-              return filter[1].includes(item1.category);
-            });
-          }
-
-          newFilterArray = [...new Set([...newFilterArray,...items])];
-          console.log("22",newFilterArray);
-
-          if(newFilterArray !== []) {
-            this.setState({ searchItems:  newFilterArray });
-          } else if (this.state.searchItems === []) {
-            this.setState({ searchItems:  this.state.items });
-          }
-
-          return items;
-        }
-        else if(type == "gender") {
-          // this.setState({ value, selectedFilter: [...this.state.selectedFilter, {gender: value}] });
-          // this.setState({ value, selectedFilter: [...this.state.selectedFilter, this.state.selectedFilter[2].push(value)] });
-          // filter = [...filter, {"gender": value}];
-
-          // filter[2] = { ...filter[2], gender: value};
-          filter[2].push(value);
-          let newFilterArray = [];
-
-          if(filter[0] !==[] || filter[1] !== [] || filter[3] !== []) {
-            var items = this.state.searchItems.filter(item1 => {
-              console.log("32123", filter[2])
-              return filter[2].includes(item1.gender);
-            });
-          } else {
-            var items = this.state.items.filter(item1 => {
-              console.log("32123", filter[2])
-              return filter[2].includes(item1.gender);
-            });
-          }
-          
-
-          newFilterArray = [...new Set([...newFilterArray,...items])];
-          console.log("22",newFilterArray);
-
-          this.setState({ searchItems:  newFilterArray });
       
-          return items;
-        }
-        else if(type == "season") {
-          // this.setState({ value, selectedFilter: [...this.state.selectedFilter, {season: value}] });
-          // this.setState({ value, selectedFilter: [...this.state.selectedFilter, this.state.selectedFilter[3].push(value)] });
-          // filter = [...filter, {"season": value}];
-          
-          // filter[3] = { ...filter[3], season: value};
-          filter[3].push(value);
+        // if(type == "brand") {
+      
+        //   filter[0].push(value);
+        //   console.log("34", value, filter[0],this.state.selectedFilter)
 
-          let newFilterArray = [];
-          if(filter[0] !==[] || filter[1] !== [] || filter[2] !== []) {
-            var items = this.state.searchItems.filter(item1 => {
-              console.log("32123", filter[3])
+        //   let newFilterArray = [];
+
+        //   if(filter[1] !==[] || filter[2] !== [] || filter[3] !== []) {
+        //     var items = this.state.searchItems.filter(item1 => {
+        //       console.log("32123", filter[0])
+             
+        //       return filter[0].includes(item1.brand);
+        //     });
+    
+        //   } else {
+        //     var items = this.state.items.filter(item1 => {
+        //       console.log("32123", filter[0])
+              
+        //       return filter[0].includes(item1.brand);
+        //     });
+        //   }
+          
+        //   newFilterArray = [...new Set([...newFilterArray,...items])];
+        //   console.log("22",newFilterArray);
+
+        //   this.setState({ searchItems:  newFilterArray });
+      
+        //   return items;
+        // }
+        // else if(type == "category") {
+         
+        //   filter[1].push(value);
+        //   let newFilterArray = [];
+
+        //   if(filter[0] !==[] || filter[2] !== [] || filter[3] !== []) {
+        //     var items = this.state.searchItems.filter(item1 => {
+        //       console.log("32123", filter[1])
+              
+        //       return filter[1].includes(item1.category);
+        //     });
+        //   }
+        //   else {
+        //     var items = this.state.items.filter(item1 => {
+        //       console.log("32123", filter[1])
+              
+        //       return filter[1].includes(item1.category);
+        //     });
+        //   }
+
+        //   newFilterArray = [...new Set([...newFilterArray,...items])];
+        //   console.log("22",newFilterArray);
+
+        //   if(newFilterArray !== []) {
+        //     this.setState({ searchItems:  newFilterArray });
+        //   } else if (this.state.searchItems === []) {
+        //     this.setState({ searchItems:  this.state.items });
+        //   }
+
+        //   return items;
+        // }
+        // else if(type == "gender") {
+        
+        //   filter[2].push(value);
+        //   let newFilterArray = [];
+
+        //   if(filter[0] !==[] || filter[1] !== [] || filter[3] !== []) {
+        //     var items = this.state.searchItems.filter(item1 => {
+        //       console.log("32123", filter[2])
+        //       return filter[2].includes(item1.gender);
+        //     });
+        //   } else {
+        //     var items = this.state.items.filter(item1 => {
+        //       console.log("32123", filter[2])
+        //       return filter[2].includes(item1.gender);
+        //     });
+        //   }
+          
+
+        //   newFilterArray = [...new Set([...newFilterArray,...items])];
+        //   console.log("22",newFilterArray);
+
+        //   this.setState({ searchItems:  newFilterArray });
+      
+        //   return items;
+        // }
+        // else if(type == "season") {
+         
+        //   filter[3].push(value);
+
+        //   let newFilterArray = [];
+        //   if(filter[0] !==[] || filter[1] !== [] || filter[2] !== []) {
+        //     var items = this.state.searchItems.filter(item1 => {
+        //       console.log("32123", filter[3])
             
-              return filter[3].includes(item1.season);
-            });
-          } else {
-            var items = this.state.items.filter(item1 => {
-              console.log("32123", filter[3])
+        //       return filter[3].includes(item1.season);
+        //     });
+        //   } else {
+        //     var items = this.state.items.filter(item1 => {
+        //       console.log("32123", filter[3])
             
-              return filter[3].includes(item1.season);
-            });
-          }
+        //       return filter[3].includes(item1.season);
+        //     });
+        //   }
        
 
-          newFilterArray = [...new Set([...newFilterArray,...items])];
-          console.log("22",newFilterArray);
+        //   newFilterArray = [...new Set([...newFilterArray,...items])];
+        //   console.log("22",newFilterArray);
 
-          this.setState({ searchItems:  newFilterArray });
+        //   this.setState({ searchItems:  newFilterArray });
       
-          return items;
-        }
+        //   return items;
+        // }
       }
       else {
 
@@ -262,10 +334,7 @@ class App extends Component {
           // The helper function
       
             (async () => {
-              // const myArray = [1, 2, 3, 4, 5]
               let newFilterArray = [];
-
-              // This is exactly what you'd expect to write 
 
               var items = await filter1(this.state.items, async item1 => {
                 console.log("32123", filter[0])
@@ -278,11 +347,6 @@ class App extends Component {
                 
               });
     
-              // const results = await filter(myArray, async num => {
-              //   await doAsyncStuff()
-              //   return num > 2
-              // })
-              
               newFilterArray = [...new Set([...newFilterArray,...items])];
               console.log("22",newFilterArray);
   
@@ -290,34 +354,9 @@ class App extends Component {
         
               return items;
             })()
-    
-
-            // let newFilterArray = [];
-
-            // var items = this.state.items.filter(item1 => {
-            //   console.log("32123", filter[0])
-            //   // filter[0].map(item => 
-            //   //   {
-            //   //     return item1.brand.toLowerCase() ===  item.toLowerCase();
-  
-            //   //   })
-            //   // return item.brand.toLowerCase() === filter["brand"].toLowerCase() ;
-            //   return filter[0].includes(item1.brand);
-            // });
-  
-            // newFilterArray = [...new Set([...newFilterArray,...items])];
-            // console.log("22",newFilterArray);
-  
-            // this.setState({ searchItems:  newFilterArray });
-        
-            // return items;
-
-          
-
-
         }
         else if(type == "category") {        
-          // filter = filter[1].filter(item => !value.includes(item))
+          
           filter[1] = filter[1].filter(item => {
             if(filter[1].length == 1 ) {
               return false;
@@ -339,13 +378,8 @@ class App extends Component {
               return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
             }
            
-            // The helper function
-        
               (async () => {
-                // const myArray = [1, 2, 3, 4, 5]
                 let newFilterArray = [];
-  
-                // This is exactly what you'd expect to write 
   
                 var items = await filter1(this.state.items, async item1 => {
                   console.log("32123", filter[1])
@@ -368,7 +402,6 @@ class App extends Component {
       
         }
         else if(type == "gender") {
-          // filter = filter[2].filter(item => !value.includes(item))
 
           filter[2] = filter[2].filter(item => {
             if(filter[2].length == 1 ) {
@@ -391,13 +424,8 @@ class App extends Component {
               return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
             }
            
-            // The helper function
-        
               (async () => {
-                // const myArray = [1, 2, 3, 4, 5]
                 let newFilterArray = [];
-  
-                // This is exactly what you'd expect to write 
   
                 var items = await filter1(this.state.items, async item1 => {
                   console.log("32123", filter[2])
@@ -419,7 +447,6 @@ class App extends Component {
               })()
         }
         else if(type == "season") {
-          // filter = filter[3].filter(item => !value.includes(item))
 
           filter[3] = filter[3].filter(item => {
             if(filter[3].length == 1 ) {
@@ -442,13 +469,9 @@ class App extends Component {
               return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
             }
            
-            // The helper function
         
               (async () => {
-                // const myArray = [1, 2, 3, 4, 5]
                 let newFilterArray = [];
-  
-                // This is exactly what you'd expect to write 
   
                 var items = await filter1(this.state.items, async item1 => {
                   console.log("32123", filter[3])
@@ -469,99 +492,17 @@ class App extends Component {
               })()
         }
 
-
-        // filter = filter.filter(item => !value.includes(item.value))
-
         this.setState({selectedFilter: filter});
 
       }
 
-      if(filter.length > 0 ) {
-        // let newFilterArray = [];
-
-        //  var items = this.state.items.filter(item => {
-        //     console.log("32123", filter[0])
-        //     return item.brand.toLowerCase() === filter[0].brand.toLowerCase() ;
-        //     // return item.brand.toLowerCase() === filter["brand"].toLowerCase() ;
-        //   });
-
-        //   newFilterArray = [...new Set([...newFilterArray,...items])];
-        //   console.log("22",newFilterArray);
-
-        //   this.setState({ searchItems:  newFilterArray });
+      // if(filter.length > 0 ) {
       
-        //   return items;
-        // filter.map(filter => {
+      //     console.log("1",filter);
 
-          // if(this.state.currentType == "") {
-          //   this.setState({currentType : filter.type})
-          //   var items = this.state.items.filter(item => {
-          //     // console.log("32123", filter["brand"])
-          //     return item[filter.type].toLowerCase() === filter.value.toLowerCase();
-          //     // return item.brand.toLowerCase() === filter["brand"].toLowerCase() ;
-          //   });
-          //   console.log("21",items);
-
-          //   newFilterArray = [...new Set([...newFilterArray,...items])];
-          //   console.log("22",newFilterArray);
-  
-          //   this.setState({ searchItems:  newFilterArray });
-
-          //   return items;
-          // }
-          // else if(this.state.currentType == filter.type) {
-          
-          //   var items = this.state.items.filter(item => {
-          //     // console.log("32123", filter["brand"])
-          //     return item[filter.type].toLowerCase() === filter.value.toLowerCase();
-          //     // return item.brand.toLowerCase() === filter["brand"].toLowerCase() ;
-          //   });
-          //   console.log("21",this.state.currentType,items);
-
-          //   newFilterArray = [...new Set([...newFilterArray,...items])];
-          //   console.log("22",newFilterArray);
-  
-          //   this.setState({ searchItems:  newFilterArray });
-
-          //   return items;
-
-          // }
-          // else if(this.state.currentType !== filter.type) {
-          //   this.setState({currentType : filter.type})
-          //   var items = this.state.searchItems.filter(item => {
-          //     // console.log("32123", filter["brand"])
-          //     return item[filter.type].toLowerCase() === filter.value.toLowerCase();
-          //     // return item.brand.toLowerCase() === filter["brand"].toLowerCase() ;
-          //   });
-          // console.log("oogabooga",this.state.currentType,items);
-          // console.log("21ooo",newFilterArray);
-          // newFilterArray = [];
-          //   newFilterArray = [...new Set([...newFilterArray,...items])];
-          //   console.log("22",newFilterArray);
-  
-          //   this.setState({ searchItems:  newFilterArray });
-          //   return items;
-
-          // }
-
-          console.log("1",filter);
-
-          // var items = this.state.searchItems.filter(item => {
-          //   console.log("32123", filter["brand"])
-          //   return item[filter.type].toLowerCase() === filter.value.toLowerCase();
-          //   // return item.brand.toLowerCase() === filter["brand"].toLowerCase() ;
-          // });
-
-          // newFilterArray = [...new Set([...newFilterArray,...items])];
-          // console.log("22",newFilterArray);
-
-          // this.setState({ searchItems:  newFilterArray });
-      
-          // return items;
-        // })
-      } else {
-        this.setState({ searchItems:  [] });
-      }
+      // } else {
+      //   this.setState({ searchItems:  [] });
+      // }
 
   };
 

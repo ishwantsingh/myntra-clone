@@ -82,19 +82,19 @@ export default class FilterBar extends React.Component {
           </div>
           <p className="filter-name brand">BRAND</p>
           <div className="filter-div brands">
-            <Filter options={this.props.uniqueBrands} type="brand" filterItemHandler={this.props.filterItemHandler}/>
+            <Filter options={this.props.uniqueBrands} type="brand" number="0" filterItemHandler={this.props.filterItemHandler}/>
           </div>
           <p className="filter-name">CATEGORY</p>
           <div className="filter-div categories">
-            <Filter options={this.props.uniqueCategories} type="category" filterItemHandler={this.props.filterItemHandler}/>
+            <Filter options={this.props.uniqueCategories} type="category" number="1" filterItemHandler={this.props.filterItemHandler}/>
           </div>
           <p className="filter-name">GENDER</p>
           <div className="filter-div genders">
-            <Filter options={this.props.uniqueGenders} type="gender" filterItemHandler={this.props.filterItemHandler}/>
+            <Filter options={this.props.uniqueGenders} type="gender" number="2" filterItemHandler={this.props.filterItemHandler}/>
           </div>
           <p className="filter-name">SEASON</p>
           <div className="filter-div seasons">
-            <Filter options={this.props.uniqueSeasons} type="season" filterItemHandler={this.props.filterItemHandler}/>
+            <Filter options={this.props.uniqueSeasons} type="season" number="3" filterItemHandler={this.props.filterItemHandler}/>
           </div>
         </Container>
       );

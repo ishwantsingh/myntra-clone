@@ -112,7 +112,7 @@ export default class Filter extends Component {
                                     // checked={this.state.value === `${brand}`}
                                     // onChange={() => this.handleChange(`${option}`, this.props.type)}
                                     // onChange={() => this.props.filterItemHandler(`${option}`, this.props.type)}  
-                                    onClick={(e) => this.props.filterItemHandler(e,`${option}`, this.props.type )}  
+                                    onClick={(e) => this.props.filterItemHandler(e,`${option}`, this.props.type,this.props.number )}  
                                     />
                                 </Form.Field>
                             </Form>
