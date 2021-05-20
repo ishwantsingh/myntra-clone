@@ -7,6 +7,11 @@ import Shop from "./components/shop/Shop";
 import FilterBar from "./components/filter/FilterBar";
 import HeadBar from "./components/headbar/HeadBar";
 import Item from "./components/shop/Item";
+import Spinner from "./components/Spinner";
+
+import { Reset } from 'styled-reset'
+// import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
+// import 'semantic-ui-css/semantic.min.css';
 
 const Container = styled.div`
   width: 100%;
@@ -15,6 +20,14 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
+  .Loader {
+    position: fixed;
+    left: 15vw;
+    top: 8vh;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+ }
 `;
 const ShopContainer = styled.div`
   width: 100%;
@@ -41,8 +54,7 @@ class App extends Component {
       seasons: [],
       uniqueSeasons: [],
       selectedFilter: [[],[],[],[]],
-      isClicked: false,
-      currentType: ""
+      loading: false
     };
   }
 
@@ -54,8 +66,10 @@ class App extends Component {
           },
       })
       .then(res => {
+        this.setState({loading: true});
           if (!res.ok) {
-              throw new Error('Network response was not ok');
+            this.setState({loading: false});
+            throw new Error('Network response was not ok');
           }
           return res.json();;
       })
@@ -64,12 +78,14 @@ class App extends Component {
 
           data.products.map(product => {
           this.setState({brands: [...this.state.brands, product.brand], genders: [...this.state.genders, product.gender],categories: [...this.state.categories, product.category], seasons: [...this.state.seasons, product.season] })
-          })
+          return product;
+        })
 
-          this.setState({uniqueBrands: [...new Set(this.state.brands)], uniqueGenders: [...new Set(this.state.genders)], uniqueCategories: [...new Set(this.state.categories)], uniqueSeasons: [...new Set(this.state.seasons)]})
+          this.setState({uniqueBrands: [...new Set(this.state.brands)], uniqueGenders: [...new Set(this.state.genders)], uniqueCategories: [...new Set(this.state.categories)], uniqueSeasons: [...new Set(this.state.seasons)], loading: false})
       })
       .catch(error => {
           console.error('There has been a problem with your fetch operation:', error);
+          this.setState({loading: false});
         });
   }
 
@@ -79,34 +95,36 @@ class App extends Component {
     const items = this.state.items.filter(item => {
       return item.productName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
     });
-    
+
     this.setState({ searchItems: items });
   };
 
-  filterItemHandler = (e,value, type,number) => {
+  filterItemHandler = (e, value, type, number) => {
       var filter = this.state.selectedFilter;
+      console.log("0",e.target.checked,e.target.parentNode.children[0].checked);
 
-      if(e.target.checked) {
+      if(!e.target.parentNode.children[0].checked) {
+        console.log("1");
           filter[number].push(value);
 
           let newFilterProductsArray = [];
 
-          var filterTypeCount = 0;
+          let filterTypeCount = 0;
 
           for(let i=0; i<4; i++) {
-            if(filter[i].length == 0) {
-              filterTypeCount = filterTypeCount;
+            if(filter[i].length === 0) {
+              continue;
             }  else {
               filterTypeCount++;
             } 
           }
-
+          var items;
           if(filterTypeCount < 2) {
-            var items = this.state.items.filter(item => {
+            items = this.state.items.filter(item => {
               return filter[number].includes(item[type]);
             });
           } else {
-            var items = this.state.searchItems.filter(item => {
+            items = this.state.searchItems.filter(item => {
               return filter[number].includes(item[type]);
             });
           }
@@ -119,12 +137,14 @@ class App extends Component {
       
       }
       else {
+        console.log("2");
+
         let newFilterProductsArray = [];
-        var filterTypeCount = 0;
+        let filterTypeCount = 0;
 
         for(let i=0; i<4; i++) {
-          if(filter[i].length == 0) {
-            filterTypeCount = filterTypeCount;
+          if(filter[i].length === 0) {
+            continue;
           }  else {
             filterTypeCount++;
           } 
@@ -133,27 +153,30 @@ class App extends Component {
         if(filterTypeCount < 2) {
           filter[number] = filter[number].filter(filterType =>  !value.includes(filterType));
 
-          var items = this.state.items.filter(item => {
+          items = this.state.items.filter(item => {
             return filter[number].includes(item[type]);
           });
         } else if( filterTypeCount > 1 ) {
 
           filter[number] = filter[number].filter(filterType =>  !value.includes(filterType));
 
-          var items = this.state.items.filter(item => {
+          items = this.state.items.filter(item => {
             for(let i = 0; i<4; i++) {
-              if(i == 0) {
+              if(i === 0) {
                 return filter[i].includes(item.brand)
-              } else if( i == 1) {
+              } else if( i === 1) {
                 return filter[i].includes(item.category)
-              } else if( i == 2) {
+              } else if( i === 2) {
                 return filter[i].includes(item.gender)
-              } else if( i == 3) {
+              } else if( i === 3) {
                 return filter[i].includes(item.season)
               }
-            }        
+            }      
+            return false;
           });
         }
+        console.log("3");
+
             newFilterProductsArray = [...new Set([...newFilterProductsArray,...items])];
 
             this.setState({ searchItems:  newFilterProductsArray,selectedFilter: filter });
@@ -170,9 +193,14 @@ class App extends Component {
         <ShopContainer>
           <FilterBar filterItemHandler={this.filterItemHandler} uniqueBrands={this.state.uniqueBrands} uniqueGenders={this.state.uniqueGenders} uniqueCategories={this.state.uniqueCategories} uniqueSeasons={this.state.uniqueSeasons}/>
 
-          <Route exact path="/" render={(props) => (<Shop  {...props} items={ this.state.searchItems.length > 0
+          {this.state.loading? <Spinner /> : 
+  <Route exact path="/" render={(props) => (<Shop  {...props} items={ this.state.searchItems.length > 0
                   ? this.state.searchItems
                   : this.state.items} />)} />
+                 } 
+          {/* <Route exact path="/" render={(props) => (<Shop  {...props} loading={this.state.loading} items={ this.state.searchItems.length > 0
+                  ? this.state.searchItems
+                  : this.state.items} />)} /> */}
 
           <Route path="/item/:itemId" render={(props) => (<Item  {...props} items={this.state.items} />)} />
         </ShopContainer>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Form, Checkbox } from 'semantic-ui-react'
+import { Form, Checkbox } from 'semantic-ui-react';
 import styled from "styled-components";
-
+import * as uuid from 'uuid';
 
 const Container = styled.div`
     display: flex;
@@ -17,11 +17,6 @@ const Container = styled.div`
 `;
 
 export default class Filter extends Component {
-    constructor(props) {
-        super(props); 
-        }
-    
-
     render() {
         return (
                 this.props.options.map(option => {    
@@ -34,7 +29,7 @@ export default class Filter extends Component {
                                     label={`${option}`}
                                     name='brandGroup'
                                     value={`${option}`}
-                                    onClick={(e) => this.props.filterItemHandler(e,`${option}`, this.props.type,this.props.number )}  
+                                    onClick={(e) => this.props.filterItemHandler(e,`${option}`, this.props.type, this.props.number )}  
                                     />
                                 </Form.Field>
                             </Form>

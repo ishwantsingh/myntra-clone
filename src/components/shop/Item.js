@@ -1,6 +1,5 @@
 import React from "react";
 import styled from 'styled-components';
-import { Switch, Route, Link  } from "react-router-dom";
 
 import star from "../../assets/star.png"
 
@@ -67,7 +66,7 @@ const Container = styled.div`
   }
   .price-details {
     font-size: 1.5rem;
-    width: 35rem;
+    width: 32rem;
     display: flex;
     flex-direction: row;
     margin: 1rem 0 -3rem 0;
@@ -101,18 +100,18 @@ const ItemGallery = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   width: 50%;
-  height: 88vh;
+  height: 88%;
 `
 
-const Itemcard = styled.div`
-  width: 16rem;
-  height: 27rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 35px;
-`;
+// const Itemcard = styled.div`
+//   width: 16rem;
+//   height: 27rem;
+//   display: flex;
+//   flex-wrap: wrap;
+//   justify-content: space-around;
+//   align-items: center;
+//   margin-bottom: 35px;
+// `;
 const Itemimage = styled.img`
   width: 45%;
   height: 55%;
@@ -122,12 +121,7 @@ const Itemimage = styled.img`
 `;
 
 function Item(props) {
-  console.log(props.match.params.itemId);
   const item = props.items.find(item => `${item.productId}` === props.match.params.itemId);
-  console.log(item,"item", item.rating);
-  console.log(item,"item2",JSON.stringify(item.rating).length );
-  // console.log(item,"item3",item.rating);
-  // console.log(item,"item4", JSON.stringify(item.rating.slice(0,3)));
   if (!item) return <h2>No Item Found...</h2>;
   return (
         <Container>
@@ -147,7 +141,7 @@ function Item(props) {
                   <p className="product-name">{item.additionalInfo.length >25 ? item.productName.slice(0,25)+ "..." : item.additionalInfo}</p>
                   
                   <div className="reviews">
-                   {JSON.stringify(item.rating).length >3 ? JSON.stringify(item.rating).slice(0,3) : item.rating} <img src={star} className="star-image"/> |   {item.ratingCount} Reviews
+                   {JSON.stringify(item.rating).length >3 ? JSON.stringify(item.rating).slice(0,3) : item.rating} <img src={star} className="star-image" alt="star"/> |   {item.ratingCount} Reviews
                   </div>
                   
                   <div className="price-details">

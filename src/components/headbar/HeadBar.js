@@ -84,7 +84,7 @@ export default function HeadBar(props) {
             <Container>
             <section id="headbar">
                     <nav className="menu ">
-                        <img src={logo} className="logo" />
+                        <img src={logo} className="logo" alt="logo" />
                         <div className="menu-item jsTest">MEN</div>
                         <div className="menu-item">WOMEN</div>
                         <div className="menu-item">KIDS</div>
