@@ -75,9 +75,11 @@ class App extends Component {
 
   searchItemHandler = e => {
     let searchTerm = e.target.value;
+
     const items = this.state.items.filter(item => {
       return item.productName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
     });
+    
     this.setState({ searchItems: items });
   };
 
@@ -87,74 +89,74 @@ class App extends Component {
       if(e.target.checked) {
           filter[number].push(value);
 
-          let newFilterArray = [];
+          let newFilterProductsArray = [];
 
-          var count = 0;
+          var filterTypeCount = 0;
 
           for(let i=0; i<4; i++) {
             if(filter[i].length == 0) {
-              count = count;
+              filterTypeCount = filterTypeCount;
             }  else {
-              count++;
+              filterTypeCount++;
             } 
           }
 
-          if(count < 2) {
-            var items = this.state.items.filter(item1 => {
-              return filter[number].includes(item1[type]);
+          if(filterTypeCount < 2) {
+            var items = this.state.items.filter(item => {
+              return filter[number].includes(item[type]);
             });
           } else {
-            var items = this.state.searchItems.filter(item1 => {
-              return filter[number].includes(item1[type]);
+            var items = this.state.searchItems.filter(item => {
+              return filter[number].includes(item[type]);
             });
           }
 
-          newFilterArray = [...new Set([...newFilterArray,...items])];
+          newFilterProductsArray = [...new Set([...newFilterProductsArray,...items])];
 
-          this.setState({ searchItems:  newFilterArray });
+          this.setState({ searchItems:  newFilterProductsArray });
       
           return items;
       
       }
       else {
-        let newFilterArray = [];
-        var count = 0;
+        let newFilterProductsArray = [];
+        var filterTypeCount = 0;
 
         for(let i=0; i<4; i++) {
           if(filter[i].length == 0) {
-            count = count;
+            filterTypeCount = filterTypeCount;
           }  else {
-            count++;
+            filterTypeCount++;
           } 
         }
 
-        if(count < 2) {
-          filter[number] = filter[number].filter(item =>  !value.includes(item));
+        if(filterTypeCount < 2) {
+          filter[number] = filter[number].filter(filterType =>  !value.includes(filterType));
 
-          var items = this.state.items.filter(item1 => {
-            return filter[number].includes(item1[type]);
+          var items = this.state.items.filter(item => {
+            return filter[number].includes(item[type]);
           });
-        } else if( count > 1 ) {
+        } else if( filterTypeCount > 1 ) {
 
-          filter[number] = filter[number].filter(item =>  !value.includes(item));
+          filter[number] = filter[number].filter(filterType =>  !value.includes(filterType));
 
-          var items = this.state.items.filter(item1 => {
+          var items = this.state.items.filter(item => {
             for(let i = 0; i<4; i++) {
               if(i == 0) {
-                return filter[i].includes(item1.brand)
+                return filter[i].includes(item.brand)
               } else if( i == 1) {
-                return filter[i].includes(item1.category)
+                return filter[i].includes(item.category)
               } else if( i == 2) {
-                return filter[i].includes(item1.gender)
+                return filter[i].includes(item.gender)
               } else if( i == 3) {
-                return filter[i].includes(item1.season)
+                return filter[i].includes(item.season)
               }
             }        
           });
         }
-            newFilterArray = [...new Set([...newFilterArray,...items])];
+            newFilterProductsArray = [...new Set([...newFilterProductsArray,...items])];
 
-            this.setState({ searchItems:  newFilterArray,selectedFilter: filter });
+            this.setState({ searchItems:  newFilterProductsArray,selectedFilter: filter });
       
             return items;
       }
