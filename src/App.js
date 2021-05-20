@@ -81,6 +81,7 @@ class App extends Component {
       })
       .catch(error => {
           console.error('There has been a problem with your fetch operation:', error);
+          window.alert("Error fetching data. Please try cheching your internet connection and refreshing the page.")
           this.setState({loading: false});
         });
   }
@@ -97,10 +98,8 @@ class App extends Component {
 
   filterItemHandler = (e, value, type, number) => {
       var filter = this.state.selectedFilter;
-      console.log("0",e.target.checked,e.target.parentNode.children[0].checked);
 
-      if(!e.target.parentNode.children[0].checked) {
-        console.log("1");
+      if(e.target.checked) {
           filter[number].push(value);
 
           let newFilterProductsArray = [];
@@ -133,7 +132,6 @@ class App extends Component {
       
       }
       else {
-        console.log("2");
 
         let newFilterProductsArray = [];
         let filterTypeCount = 0;
@@ -171,7 +169,6 @@ class App extends Component {
             return false;
           });
         }
-        console.log("3");
 
             newFilterProductsArray = [...new Set([...newFilterProductsArray,...items])];
 
@@ -182,12 +179,36 @@ class App extends Component {
 
   };
 
+  clearFilters = () => {
+    this.setState({ selectedFilter: [[],[],[],[]], searchItems: this.state.items});
+    // let filterDivs = document.querySelectorAll(".brand-div");
+    let filterCheckboxes = document.querySelectorAll(".filter-checkbox");
+    for (var i = 0; i < filterCheckboxes.length; i++) {
+      // filterCheckboxes[i].children[0].setAttribute("checked", false);
+      // filterCheckboxes[i].children[0].setProperty("checked", false);
+      console.log(filterCheckboxes[i])
+      filterCheckboxes[i].checked = false;
+  }
+  console.log("fil", filterCheckboxes)
+    // filterDivs.map(item => item.checked = false)
+    // Object.keys(filterDivs).map(function(key, index) {
+    // console.log("fil", filterDivs[key].children[0].children[0].children[0].children[0] )
+
+    //   filterDivs[key].children[0].children[0].children[0].children[0].checked = false;
+    // console.log("fil", filterDivs[key].children[0].children[0].children[0].children[0].checked )
+
+    // })
+      
+      // item => item.children[0].children[0].children[0].children[0].checked = false)
+    // console.log("fil", typeof(filterDivs),filterDivs)
+  }
+
   render() {  
     return (
       <Container>
         <HeadBar searchItems={this.searchItemHandler}/>
         <ShopContainer>
-          <FilterBar filterItemHandler={this.filterItemHandler} uniqueBrands={this.state.uniqueBrands} uniqueGenders={this.state.uniqueGenders} uniqueCategories={this.state.uniqueCategories} uniqueSeasons={this.state.uniqueSeasons}/>
+          <FilterBar filterItemHandler={this.filterItemHandler} clearFilters={this.clearFilters} uniqueBrands={this.state.uniqueBrands} uniqueGenders={this.state.uniqueGenders} uniqueCategories={this.state.uniqueCategories} uniqueSeasons={this.state.uniqueSeasons}/>
 
           {this.state.loading? 
           <Spinner /> 

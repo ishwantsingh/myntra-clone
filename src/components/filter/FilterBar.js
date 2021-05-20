@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import {Button} from "semantic-ui-react";
 
 import Filter from "./Filter"
 
 const Container = styled.div`
   width: 15vw;
-  height: 90vh;
+  height: 92vh;
   position: fixed;
   top: 8vh;
   left: 0px;
@@ -63,6 +64,25 @@ const Container = styled.div`
     align-items: center;
     padding-left: 16%
   }
+  .clear-filter{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    line-height: 1;
+    padding: 15px 0 0 0;
+    margin: 15px 0 10px 0;
+    height: 100px;
+    border-top: 1px solid #E1E0E0;
+  }
+  .clear-button {
+    background-color: white;
+    color: black;
+    border-radius: 6px;
+    margin: 0 auto;
+    width: 150px;
+    height: 30px;
+    cursor: pointer;
+  }
 `;
 
 
@@ -95,6 +115,9 @@ export default class FilterBar extends React.Component {
           <p className="filter-name">SEASON</p>
           <div className="filter-div seasons">
             <Filter options={this.props.uniqueSeasons} type="season" number="3" filterItemHandler={this.props.filterItemHandler}/>
+          </div>
+          <div className="filter-div clear-filter">
+            <Button className="clear-button" onClick={this.props.clearFilters}>Clear Filters</Button>
           </div>
         </Container>
       );
