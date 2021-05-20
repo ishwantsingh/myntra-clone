@@ -123,6 +123,7 @@ class Item extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0,0);
+    //when product images are loaded, state changes and item page is displayed instead of spinner
     this.imageRef.current.addEventListener('load', () => { 
       this.setState({loaded: true})
   });

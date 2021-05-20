@@ -29,7 +29,7 @@ const Container = styled.div`
 export default class Filter extends Component {
     render() {
         return (
-                this.props.options.map(option => {    
+                this.props.options.map(option => {     //Different options are mapped to automatically create all filter options
                     return(
                         <Container>
                             <div className="brand-div">
@@ -41,7 +41,7 @@ export default class Filter extends Component {
                                     label={`${option}`}
                                     name='brandGroup'
                                     value={`${option}`}
-                                    onClick={(e) => this.props.filterItemHandler(e,`${option}`, this.props.type, this.props.number )}  
+                                    onClick={(e) => this.props.filterItemHandler(e,`${option}`, this.props.type, this.props.number )}  //runs the filter function in App.js
                                     />
                                     <p>{option}</p>
                                 </Form.Field>

@@ -62,7 +62,7 @@ function SearchBar(props) {
         <SearchInput
           type="text"
           placeholder="Search for products, brands and more"
-          onKeyDown={props.searchItems}
+          onKeyDown={props.searchItems} //runs search function in App.js on each key press
         />
       </StyledInput>
 

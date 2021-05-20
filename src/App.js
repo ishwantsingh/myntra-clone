@@ -9,6 +9,8 @@ import HeadBar from "./components/headbar/HeadBar";
 import Item from "./components/shop/Item";
 import Spinner from "./components/Spinner";
 
+//used styled-components to write css in jsx file
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -37,6 +39,8 @@ const ShopContainer = styled.div`
 class App extends Component {
   constructor(props) {
     super(props);
+
+    //all data recieved from API is stored in state. So only 1 call is made
     this.state = {
       apiLink: "https://demo7242716.mockable.io/products",
       items: [],
@@ -55,6 +59,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    //data fetch call
       fetch(this.state.apiLink, {
           method: 'GET',
           headers: {
@@ -70,35 +75,40 @@ class App extends Component {
           return res.json();;
       })
       .then((data) => {
-          this.setState({ items: data.products ,searchItems: data.products});
+          this.setState({ items: data.products ,searchItems: data.products}); //returned data stored in state
 
+          //data is filtered to seperate out the product information like categories, brand, gender, season
           data.products.map(product => {
-          this.setState({brands: [...this.state.brands, product.brand], genders: [...this.state.genders, product.gender],categories: [...this.state.categories, product.category], seasons: [...this.state.seasons, product.season] })
-          return product;
-        })
+            this.setState({brands: [...this.state.brands, product.brand], genders: [...this.state.genders, product.gender],categories: [...this.state.categories, product.category], seasons: [...this.state.seasons, product.season] })
+            return product;
+          })
 
           this.setState({uniqueBrands: [...new Set(this.state.brands)], uniqueGenders: [...new Set(this.state.genders)], uniqueCategories: [...new Set(this.state.categories)], uniqueSeasons: [...new Set(this.state.seasons)], loading: false})
       })
       .catch(error => {
           console.error('There has been a problem with your fetch operation:', error);
+          //alert in case of network error
           window.alert("Error fetching data. Please try cheching your internet connection and refreshing the page.")
           this.setState({loading: false});
         });
   }
 
+  // when user starts typing in searchbox, this function fires
   searchItemHandler = e => {
     let searchTerm = e.target.value;
 
     const items = this.state.items.filter(item => {
       return item.productName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
     });
-
+    //searched items are updated to state
     this.setState({ searchItems: items });
   };
 
+  // when user selects a filter, this function fires
   filterItemHandler = (e, value, type, number) => {
       var filter = this.state.selectedFilter;
 
+      //when a checkbox is selected
       if(e.target.checked) {
           filter[number].push(value);
 
@@ -131,6 +141,7 @@ class App extends Component {
           return items;
       
       }
+      //when a checkbox is unselected
       else {
 
         let newFilterProductsArray = [];
@@ -176,9 +187,9 @@ class App extends Component {
       
             return items;
       }
-
   };
 
+  //when user clicks on clear filters button, this function is fired
   clearFilters = () => {
     this.setState({ selectedFilter: [[],[],[],[]], searchItems: this.state.items});
     let filterCheckboxes = document.querySelectorAll(".filter-checkbox");
@@ -195,7 +206,7 @@ class App extends Component {
           <FilterBar filterItemHandler={this.filterItemHandler} clearFilters={this.clearFilters} uniqueBrands={this.state.uniqueBrands} uniqueGenders={this.state.uniqueGenders} uniqueCategories={this.state.uniqueCategories} uniqueSeasons={this.state.uniqueSeasons}/>
 
           {this.state.loading? 
-          <Spinner /> 
+          <Spinner />  //spinner is displayed when the api call is in 'Loading' state
           : 
           <Route exact path="/" render={(props) => (<Shop  {...props} items={ this.state.searchItems.length > 0
           ? this.state.searchItems

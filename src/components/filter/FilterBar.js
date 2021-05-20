@@ -87,13 +87,7 @@ const Container = styled.div`
 
 
 export default class FilterBar extends React.Component {
-    constructor() {
-      super();
-      this.state = {
-        
-      };
-    }
-
+// in render, different filters are provided with different options from the API like "brand, category, gender, season" to render all possible filters
     render() {
       return (
         <Container>
