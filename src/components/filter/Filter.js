@@ -7,9 +7,6 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: space-between;
-    p {
-        font-size: 14px;
-    }
     .brand-div {
         height: 30%;
     }
@@ -19,12 +16,13 @@ const Container = styled.div`
         p {
             width: 80%;
             margin: 0;
-            padding: 0;
-            font-size: 14px;
+            font-size: 16px;
+            padding: 0 0 0 5px;
         }
     }
     .filter-checkbox {
-
+        height: 15px;
+        width: 15px;
     }
 `;
 

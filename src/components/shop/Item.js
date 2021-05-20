@@ -23,12 +23,12 @@ const Container = styled.div`
   }
   .product-name {
     width: 100%;
-    font-size: 1.7rem;
+    font-size: 22px;
     color: #9D9FA8;
   }
   .product-brand {
     font-weight: 600;
-    font-size: 2.2rem;
+    font-size: 26px;
   }
   .item-details-container {
       width: 50%;
