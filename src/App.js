@@ -1,13 +1,12 @@
 import './App.css';
 import React, { Component } from "react";
 import styled from 'styled-components';
-import { Switch, Route, Link  } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import Shop from "./components/shop/Shop";
 import FilterBar from "./components/filter/FilterBar";
 import HeadBar from "./components/headbar/HeadBar";
 import Item from "./components/shop/Item";
-import { ItemMeta } from 'semantic-ui-react';
 
 const Container = styled.div`
   width: 100%;
@@ -29,11 +28,6 @@ const ShopContainer = styled.div`
 class App extends Component {
   constructor(props) {
     super(props);
-    console.log("constructor running");
-    this.filterPage = React.createRef();
-    // this.projectsChild = React.createRef();
-    // this.skillsChild = React.createRef();
-    // this.hobbiesChild = React.createRef();
     this.state = {
       apiLink: "https://demo7242716.mockable.io/products",
       items: [],
@@ -46,9 +40,7 @@ class App extends Component {
       uniqueCategories: [],
       seasons: [],
       uniqueSeasons: [],
-      // selectedFilter: [{brand: ""},{category: ""},{gender: ""},{season: ""}],
       selectedFilter: [[],[],[],[]],
-      // selectedFilter: [],
       isClicked: false,
       currentType: ""
     };
@@ -68,7 +60,6 @@ class App extends Component {
           return res.json();;
       })
       .then((data) => {
-          console.log("response 2",data.products)
           this.setState({ items: data.products ,searchItems: data.products});
 
           data.products.map(product => {
@@ -91,14 +82,10 @@ class App extends Component {
   };
 
   filterItemHandler = (e,value, type,number) => {
-    console.log("1state",this.state)
-
       var filter = this.state.selectedFilter;
 
       if(e.target.checked) {
-
           filter[number].push(value);
-          console.log("34", value, filter[number],this.state.selectedFilter)
 
           let newFilterArray = [];
 
@@ -110,24 +97,19 @@ class App extends Component {
             }  else {
               count++;
             } 
-            console.log("count", count) 
           }
+
           if(count < 2) {
             var items = this.state.items.filter(item1 => {
-              console.log("32123", filter[0])
-              
               return filter[number].includes(item1[type]);
             });
           } else {
             var items = this.state.searchItems.filter(item1 => {
-              console.log("32123",number, filter[number], filter[1], filter[2], filter[3])
-             
               return filter[number].includes(item1[type]);
             });
           }
 
           newFilterArray = [...new Set([...newFilterArray,...items])];
-          console.log("22",newFilterArray);
 
           this.setState({ searchItems:  newFilterArray });
       
@@ -144,17 +126,12 @@ class App extends Component {
           }  else {
             count++;
           } 
-          console.log("count", count) 
         }
 
-
         if(count < 2) {
-
           filter[number] = filter[number].filter(item =>  !value.includes(item));
 
           var items = this.state.items.filter(item1 => {
-            console.log("32123", filter[0])
-            
             return filter[number].includes(item1[type]);
           });
         } else if( count > 1 ) {
@@ -162,93 +139,34 @@ class App extends Component {
           filter[number] = filter[number].filter(item =>  !value.includes(item));
 
           var items = this.state.items.filter(item1 => {
-            console.log("32123",number, filter[number], filter[1], filter[2], filter[3])
-           
-         
-
             for(let i = 0; i<4; i++) {
               if(i == 0) {
-                                console.log("buuny",item1[type])
                 return filter[i].includes(item1.brand)
               } else if( i == 1) {
-                                console.log("buuny2",item1[type])           
                 return filter[i].includes(item1.category)
               } else if( i == 2) {
-                                console.log("buuny",item1[type])               
                 return filter[i].includes(item1.gender)
               } else if( i == 3) {
-                                console.log("buuny",item1[type])
                 return filter[i].includes(item1.season)
               }
-            }
-        
-            // return filter[number].includes(item1[type]);
+            }        
           });
         }
             newFilterArray = [...new Set([...newFilterArray,...items])];
-            console.log("22",newFilterArray);
 
             this.setState({ searchItems:  newFilterArray,selectedFilter: filter });
       
             return items;
-        // console.log("poo",filter[0], filter)
-
-        // filter[number] = filter[number].filter(item => {
-        // if(filter[number].length == 1 ) {
-        //   return false;
-        // } else {
-        //  return !value.includes(item);
-        // } 
-        // });
-
-
-        // console.log("boo",filter[number], filter)
-
- 
-        // let doAsyncStuff = () => {
-        //   return Promise.resolve()
-        // }
-
-        // let filter1 = async (arr, callback) => {
-        //   const fail = Symbol()
-        //   return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
-        // }
-    
-        //   (async () => {
-        //     let newFilterArray = [];
-
-        //     var items = await filter1(this.state.items, async item1 => {
-        //       console.log("32123", filter[number])
-        //       await doAsyncStuff();
-        //       if(filter[number] ) {
-        //         return filter[number].includes(item1[type]);
-        //       } else {
-        //         return null;
-        //       }
-              
-        //     });
-  
-        //     newFilterArray = [...new Set([...newFilterArray,...items])];
-        //     console.log("22",newFilterArray);
-
-        //     this.setState({ searchItems:  newFilterArray });
-      
-        //     return items;
-        //   })()
-
-        // this.setState({selectedFilter: filter});
-
       }
 
   };
 
   render() {  
-    console.log("st3",  this.state)
     return (
       <Container>
         <HeadBar searchItems={this.searchItemHandler}/>
         <ShopContainer>
-          <FilterBar filterItemHandler={this.filterItemHandler} ref={this.filterPage} uniqueBrands={this.state.uniqueBrands} uniqueGenders={this.state.uniqueGenders} uniqueCategories={this.state.uniqueCategories} uniqueSeasons={this.state.uniqueSeasons}/>
+          <FilterBar filterItemHandler={this.filterItemHandler} uniqueBrands={this.state.uniqueBrands} uniqueGenders={this.state.uniqueGenders} uniqueCategories={this.state.uniqueCategories} uniqueSeasons={this.state.uniqueSeasons}/>
 
           <Route exact path="/" render={(props) => (<Shop  {...props} items={ this.state.searchItems.length > 0
                   ? this.state.searchItems
