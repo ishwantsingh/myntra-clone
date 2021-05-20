@@ -91,30 +91,30 @@ const Itemimage = styled.img`
 `;
 
 export default function Shop(props) {
-    return (
-        <Container>
-            {props.items.map(item => (
-                <Itemcard key={item.productId}>
-                <Itemimage
-                    src={item.searchImage}
-                    alt={item.productName}
-                />
-                <div className="item-details-container">
-                    <Link to={`/item/${item.productId}`} className="item-details">
-                        <p className="product-brand">{item.brand}</p>
-                        <p className="product-name">{item.additionalInfo.length >25 ? item.productName.slice(0,25)+ "..." : item.additionalInfo}</p>
-                        <div className="price-details">
-                            <p className="display-price">Rs. {item.price}</p>
+  return (
+    <Container>
+        {props.items.map(item => (
+            <Itemcard key={item.productId}>
+            <Itemimage
+                src={item.searchImage}
+                alt={item.productName}
+            />
+            <div className="item-details-container">
+                <Link to={`/item/${item.productId}`} className="item-details">
+                    <p className="product-brand">{item.brand}</p>
+                    <p className="product-name">{item.additionalInfo.length >21 ? item.productName.slice(0,21)+ "..." : item.additionalInfo}</p>
+                    <div className="price-details">
+                        <p className="display-price">Rs. {item.price}</p>
 
-                            <p className="max-price">Rs. {item.mrp}</p>
+                        <p className="max-price">Rs. {item.mrp}</p>
 
-                            <p className="discount-price">{item.discountDisplayLabel}</p>
+                        <p className="discount-price">{item.discountDisplayLabel}</p>
 
-                        </div>
-                    </Link>
-                </div>
-                </Itemcard>
-            ))}
-        </Container>
-    );
+                    </div>
+                </Link>
+            </div>
+            </Itemcard>
+        ))}
+    </Container>
+  );
 }

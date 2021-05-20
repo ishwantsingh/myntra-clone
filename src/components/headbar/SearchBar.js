@@ -20,28 +20,6 @@ const StyledSearchBar = styled.div`
   }
 `;
 
-const StyledLogos = styled.div`
-  display: flex;
-  padding: 0 0 0 30px;
-  align-items: center;
-`;
-
-const InstaIcon = styled.img`
-  width: 31.438px;
-  height: 31.438px;
-`;
-
-const VerticalRule = styled.h1`
-  margin: 0 20px;
-  font-size: 25px;
-  font-weight: normal;
-`;
-
-const InstaLogo = styled.img`
-  width: 94.328px;
-  height: 33.672px;
-`;
-
 const StyledInput = styled.div`
   display: flex;
   width: 90%;
@@ -77,24 +55,14 @@ const PersonIcon = styled.img`
   height: 38.19px;
 `;
 
-const CircleIcon = styled.img`
-  width: 38.19px;
-  height: 38.19px;
-`;
-
 function SearchBar(props) {
   return (
     <StyledSearchBar>
-      {/* <StyledLogos>
-        <InstaIcon src={instaIcon} />
-        <VerticalRule>|</VerticalRule>
-        <InstaLogo src={logo} />
-      </StyledLogos> */}
       <StyledInput>
         <SearchInput
           type="text"
           placeholder="Search for products, brands and more"
-          onKeyDown={props.searchItems}
+          onKeyDown={props.searchItems} //runs search function in App.js on each key press
         />
       </StyledInput>
 

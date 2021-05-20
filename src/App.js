@@ -7,6 +7,9 @@ import Shop from "./components/shop/Shop";
 import FilterBar from "./components/filter/FilterBar";
 import HeadBar from "./components/headbar/HeadBar";
 import Item from "./components/shop/Item";
+import Spinner from "./components/Spinner";
+
+//used styled-components to write css in jsx file
 
 const Container = styled.div`
   width: 100%;
@@ -15,6 +18,14 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
+  .Loader {
+    position: fixed;
+    left: 15vw;
+    top: 8vh;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+ }
 `;
 const ShopContainer = styled.div`
   width: 100%;
@@ -28,6 +39,8 @@ const ShopContainer = styled.div`
 class App extends Component {
   constructor(props) {
     super(props);
+
+    //all data recieved from API is stored in state. So only 1 call is made
     this.state = {
       apiLink: "https://demo7242716.mockable.io/products",
       items: [],
@@ -41,12 +54,12 @@ class App extends Component {
       seasons: [],
       uniqueSeasons: [],
       selectedFilter: [[],[],[],[]],
-      isClicked: false,
-      currentType: ""
+      loading: false
     };
   }
 
   componentDidMount() {
+    //data fetch call
       fetch(this.state.apiLink, {
           method: 'GET',
           headers: {
@@ -54,125 +67,153 @@ class App extends Component {
           },
       })
       .then(res => {
+        this.setState({loading: true});
           if (!res.ok) {
-              throw new Error('Network response was not ok');
+            this.setState({loading: false});
+            throw new Error('Network response was not ok');
           }
           return res.json();;
       })
       .then((data) => {
-          this.setState({ items: data.products ,searchItems: data.products});
+          this.setState({ items: data.products ,searchItems: data.products}); //returned data stored in state
 
+          //data is filtered to seperate out the product information like categories, brand, gender, season
           data.products.map(product => {
-          this.setState({brands: [...this.state.brands, product.brand], genders: [...this.state.genders, product.gender],categories: [...this.state.categories, product.category], seasons: [...this.state.seasons, product.season] })
+            this.setState({brands: [...this.state.brands, product.brand], genders: [...this.state.genders, product.gender],categories: [...this.state.categories, product.category], seasons: [...this.state.seasons, product.season] })
+            return product;
           })
 
-          this.setState({uniqueBrands: [...new Set(this.state.brands)], uniqueGenders: [...new Set(this.state.genders)], uniqueCategories: [...new Set(this.state.categories)], uniqueSeasons: [...new Set(this.state.seasons)]})
+          this.setState({uniqueBrands: [...new Set(this.state.brands)], uniqueGenders: [...new Set(this.state.genders)], uniqueCategories: [...new Set(this.state.categories)], uniqueSeasons: [...new Set(this.state.seasons)], loading: false})
       })
       .catch(error => {
           console.error('There has been a problem with your fetch operation:', error);
+          //alert in case of network error
+          window.alert("Error fetching data. Please try cheching your internet connection and refreshing the page.")
+          this.setState({loading: false});
         });
   }
 
+  // when user starts typing in searchbox, this function fires
   searchItemHandler = e => {
     let searchTerm = e.target.value;
+
     const items = this.state.items.filter(item => {
       return item.productName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
     });
+    //searched items are updated to state
     this.setState({ searchItems: items });
   };
 
-  filterItemHandler = (e,value, type,number) => {
+  // when user selects a filter, this function fires
+  filterItemHandler = (e, value, type, number) => {
       var filter = this.state.selectedFilter;
 
+      //when a checkbox is selected
       if(e.target.checked) {
           filter[number].push(value);
 
-          let newFilterArray = [];
+          let newFilterProductsArray = [];
 
-          var count = 0;
+          let filterTypeCount = 0;
 
           for(let i=0; i<4; i++) {
-            if(filter[i].length == 0) {
-              count = count;
+            if(filter[i].length === 0) {
+              continue;
             }  else {
-              count++;
+              filterTypeCount++;
             } 
           }
-
-          if(count < 2) {
-            var items = this.state.items.filter(item1 => {
-              return filter[number].includes(item1[type]);
+          var items;
+          if(filterTypeCount < 2) {
+            items = this.state.items.filter(item => {
+              return filter[number].includes(item[type]);
             });
           } else {
-            var items = this.state.searchItems.filter(item1 => {
-              return filter[number].includes(item1[type]);
+            items = this.state.searchItems.filter(item => {
+              return filter[number].includes(item[type]);
             });
           }
 
-          newFilterArray = [...new Set([...newFilterArray,...items])];
+          newFilterProductsArray = [...new Set([...newFilterProductsArray,...items])];
 
-          this.setState({ searchItems:  newFilterArray });
+          this.setState({ searchItems:  newFilterProductsArray });
       
           return items;
       
       }
+      //when a checkbox is unselected
       else {
-        let newFilterArray = [];
-        var count = 0;
+
+        let newFilterProductsArray = [];
+        let filterTypeCount = 0;
 
         for(let i=0; i<4; i++) {
-          if(filter[i].length == 0) {
-            count = count;
+          if(filter[i].length === 0) {
+            continue;
           }  else {
-            count++;
+            filterTypeCount++;
           } 
         }
 
-        if(count < 2) {
-          filter[number] = filter[number].filter(item =>  !value.includes(item));
+        if(filterTypeCount < 2) {
+          filter[number] = filter[number].filter(filterType =>  !value.includes(filterType));
 
-          var items = this.state.items.filter(item1 => {
-            return filter[number].includes(item1[type]);
+          items = this.state.items.filter(item => {
+            return filter[number].includes(item[type]);
           });
-        } else if( count > 1 ) {
+        } else if( filterTypeCount > 1 ) {
 
-          filter[number] = filter[number].filter(item =>  !value.includes(item));
+          filter[number] = filter[number].filter(filterType =>  !value.includes(filterType));
 
-          var items = this.state.items.filter(item1 => {
+          items = this.state.items.filter(item => {
             for(let i = 0; i<4; i++) {
-              if(i == 0) {
-                return filter[i].includes(item1.brand)
-              } else if( i == 1) {
-                return filter[i].includes(item1.category)
-              } else if( i == 2) {
-                return filter[i].includes(item1.gender)
-              } else if( i == 3) {
-                return filter[i].includes(item1.season)
+              if(i === 0) {
+                return filter[i].includes(item.brand)
+              } else if( i === 1) {
+                return filter[i].includes(item.category)
+              } else if( i === 2) {
+                return filter[i].includes(item.gender)
+              } else if( i === 3) {
+                return filter[i].includes(item.season)
               }
-            }        
+            }      
+            return false;
           });
         }
-            newFilterArray = [...new Set([...newFilterArray,...items])];
 
-            this.setState({ searchItems:  newFilterArray,selectedFilter: filter });
+            newFilterProductsArray = [...new Set([...newFilterProductsArray,...items])];
+
+            this.setState({ searchItems:  newFilterProductsArray,selectedFilter: filter });
       
             return items;
       }
-
   };
+
+  //when user clicks on clear filters button, this function is fired
+  clearFilters = () => {
+    this.setState({ selectedFilter: [[],[],[],[]], searchItems: this.state.items});
+    let filterCheckboxes = document.querySelectorAll(".filter-checkbox");
+    for (var i = 0; i < filterCheckboxes.length; i++) {
+      filterCheckboxes[i].checked = false;
+    }
+  }
 
   render() {  
     return (
       <Container>
         <HeadBar searchItems={this.searchItemHandler}/>
         <ShopContainer>
-          <FilterBar filterItemHandler={this.filterItemHandler} uniqueBrands={this.state.uniqueBrands} uniqueGenders={this.state.uniqueGenders} uniqueCategories={this.state.uniqueCategories} uniqueSeasons={this.state.uniqueSeasons}/>
+          <FilterBar filterItemHandler={this.filterItemHandler} clearFilters={this.clearFilters} uniqueBrands={this.state.uniqueBrands} uniqueGenders={this.state.uniqueGenders} uniqueCategories={this.state.uniqueCategories} uniqueSeasons={this.state.uniqueSeasons}/>
 
+          {this.state.loading? 
+          <Spinner />  //spinner is displayed when the api call is in 'Loading' state
+          : 
           <Route exact path="/" render={(props) => (<Shop  {...props} items={ this.state.searchItems.length > 0
-                  ? this.state.searchItems
-                  : this.state.items} />)} />
+          ? this.state.searchItems
+          : this.state.items} />)} />
+                 } 
 
-          <Route path="/item/:itemId" render={(props) => (<Item  {...props} items={this.state.items} />)} />
+          <Route path="/item/:itemId" render={(props) => (<Item  {...props} loading={this.state.loading} items={this.state.items} />)} />
         </ShopContainer>
       </Container>
     );

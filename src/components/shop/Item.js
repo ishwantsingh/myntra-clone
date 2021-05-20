@@ -1,6 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
-import { Switch, Route, Link  } from "react-router-dom";
+
+import Spinner from "../Spinner";
 
 import star from "../../assets/star.png"
 
@@ -12,7 +13,6 @@ const Container = styled.div`
   justify-content: space-between;
   margin: 8.1vh 2% 0 0vw;
   padding: 4vh 0 0 12vw;
-  // margin: 12vh 2% 0 20vw;
   background-color: white;
   z-index: 1000;
   a {
@@ -22,20 +22,20 @@ const Container = styled.div`
   }
   .product-name {
     width: 100%;
-    font-size: 1.7rem;
+    font-size: 22px;
     color: #9D9FA8;
   }
   .product-brand {
     font-weight: 600;
-    font-size: 2.2rem;
+    font-size: 26px;
   }
   .item-details-container {
       width: 50%;
-      height: 6rem;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       justify-self: flex-start;
-      justify-content: space-evenly;
+      justify-content: flex-start;
       margin: 3vh 0 0 3vw;
   }
   .item-details {
@@ -67,7 +67,7 @@ const Container = styled.div`
   }
   .price-details {
     font-size: 1.5rem;
-    width: 35rem;
+    width: 32rem;
     display: flex;
     flex-direction: row;
     margin: 1rem 0 -3rem 0;
@@ -101,18 +101,9 @@ const ItemGallery = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   width: 50%;
-  height: 88vh;
+  height: 88%;
 `
 
-const Itemcard = styled.div`
-  width: 16rem;
-  height: 27rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 35px;
-`;
 const Itemimage = styled.img`
   width: 45%;
   height: 55%;
@@ -121,47 +112,66 @@ const Itemimage = styled.img`
   margin: 10px;
 `;
 
-function Item(props) {
-  console.log(props.match.params.itemId);
-  const item = props.items.find(item => `${item.productId}` === props.match.params.itemId);
-  console.log(item,"item", item.rating);
-  console.log(item,"item2",JSON.stringify(item.rating).length );
-  // console.log(item,"item3",item.rating);
-  // console.log(item,"item4", JSON.stringify(item.rating.slice(0,3)));
+class Item extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      loaded: false
+    }
+    this.imageRef = React.createRef();
+  }
+
+  componentDidMount() {
+    window.scrollTo(0,0);
+    //when product images are loaded, state changes and item page is displayed instead of spinner
+    this.imageRef.current.addEventListener('load', () => { 
+      this.setState({loaded: true})
+  });
+  }
+ 
+
+render() {
+  const item = this.props.items.find(item => `${item.productId}` === this.props.match.params.itemId);
   if (!item) return <h2>No Item Found...</h2>;
+
   return (
-        <Container>
-          <ItemGallery className="item-gallery">
-          {item.images.map(itemImage => (
-                  <Itemimage
-                    src={itemImage.src}
-                    alt={item.productName}
-                    key={item.productId + itemImage.view}
-                />
-            ))}
-          </ItemGallery>
-          
-          <div className="item-details-container">
-              <div className="item-details">
-                  <p className="product-brand">{item.brand}</p>
-                  <p className="product-name">{item.additionalInfo.length >25 ? item.productName.slice(0,25)+ "..." : item.additionalInfo}</p>
-                  
-                  <div className="reviews">
-                   {JSON.stringify(item.rating).length >3 ? JSON.stringify(item.rating).slice(0,3) : item.rating} <img src={star} className="star-image"/> |   {item.ratingCount} Reviews
-                  </div>
-                  
-                  <div className="price-details">
-                    <p className="display-price">Rs. {item.price}</p>
+    <Container>
+       {!this.state.loaded ?  <Spinner /> : null}
+      <ItemGallery className="item-gallery">
+      {item.images.map(itemImage => (
+              <Itemimage
+                ref={this.imageRef}
+                src={itemImage.src}
+                alt={item.productName}
+                key={item.productId + itemImage.view}
+            />
+        ))}
+      </ItemGallery>
+      
+      <div className="item-details-container">
+          <div className="item-details">
+              <p className="product-brand">{item.brand}</p>
+              <p className="product-name">{item.additionalInfo.length >25 ? item.productName.slice(0,25)+ "..." : item.additionalInfo}</p>
+              
+              <div className="reviews">
+               {JSON.stringify(item.rating).length >3 ? JSON.stringify(item.rating).slice(0,3) : item.rating} <img src={star} className="star-image" alt="star"/> |   {item.ratingCount} Reviews
+              </div>
+              
+              <div className="price-details">
+                <p className="display-price">Rs. {item.price}</p>
 
-                    <p className="max-price">Rs. {item.mrp}</p>
+                <p className="max-price">Rs. {item.mrp}</p>
 
-                    <p className="discount-price">{item.discountDisplayLabel}</p>
+                <p className="discount-price">{item.discountDisplayLabel}</p>
 
-                  </div>
               </div>
           </div>
-        </Container>
-  );
+      </div>
+    </Container>
+);
+}
+
+  
 }
 
 export default Item;
