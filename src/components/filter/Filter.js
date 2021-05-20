@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Checkbox } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import styled from "styled-components";
 
 const Container = styled.div`

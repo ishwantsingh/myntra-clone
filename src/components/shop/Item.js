@@ -13,7 +13,6 @@ const Container = styled.div`
   justify-content: space-between;
   margin: 8.1vh 2% 0 0vw;
   padding: 4vh 0 0 12vw;
-  // margin: 12vh 2% 0 20vw;
   background-color: white;
   z-index: 1000;
   a {
@@ -105,15 +104,6 @@ const ItemGallery = styled.div`
   height: 88%;
 `
 
-// const Itemcard = styled.div`
-//   width: 16rem;
-//   height: 27rem;
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: space-around;
-//   align-items: center;
-//   margin-bottom: 35px;
-// `;
 const Itemimage = styled.img`
   width: 45%;
   height: 55%;

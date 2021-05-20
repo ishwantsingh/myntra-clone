@@ -181,26 +181,10 @@ class App extends Component {
 
   clearFilters = () => {
     this.setState({ selectedFilter: [[],[],[],[]], searchItems: this.state.items});
-    // let filterDivs = document.querySelectorAll(".brand-div");
     let filterCheckboxes = document.querySelectorAll(".filter-checkbox");
     for (var i = 0; i < filterCheckboxes.length; i++) {
-      // filterCheckboxes[i].children[0].setAttribute("checked", false);
-      // filterCheckboxes[i].children[0].setProperty("checked", false);
-      console.log(filterCheckboxes[i])
       filterCheckboxes[i].checked = false;
-  }
-  console.log("fil", filterCheckboxes)
-    // filterDivs.map(item => item.checked = false)
-    // Object.keys(filterDivs).map(function(key, index) {
-    // console.log("fil", filterDivs[key].children[0].children[0].children[0].children[0] )
-
-    //   filterDivs[key].children[0].children[0].children[0].children[0].checked = false;
-    // console.log("fil", filterDivs[key].children[0].children[0].children[0].children[0].checked )
-
-    // })
-      
-      // item => item.children[0].children[0].children[0].children[0].checked = false)
-    // console.log("fil", typeof(filterDivs),filterDivs)
+    }
   }
 
   render() {  
@@ -213,9 +197,9 @@ class App extends Component {
           {this.state.loading? 
           <Spinner /> 
           : 
-  <Route exact path="/" render={(props) => (<Shop  {...props} items={ this.state.searchItems.length > 0
-                  ? this.state.searchItems
-                  : this.state.items} />)} />
+          <Route exact path="/" render={(props) => (<Shop  {...props} items={ this.state.searchItems.length > 0
+          ? this.state.searchItems
+          : this.state.items} />)} />
                  } 
 
           <Route path="/item/:itemId" render={(props) => (<Item  {...props} loading={this.state.loading} items={this.state.items} />)} />
