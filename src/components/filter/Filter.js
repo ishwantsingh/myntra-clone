@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Checkbox,Dropdown } from 'semantic-ui-react'
+import { Form, Checkbox } from 'semantic-ui-react'
 import styled from "styled-components";
 
 
@@ -15,123 +15,36 @@ const Container = styled.div`
         height: 30%;
     }
 `;
-// class Filter extends Component {
-//   constructor(props) {
-//     super(props);
-
-
-//   }
-
-//   componentDidMount() {
-//     this.textInput.focus();
-//   }
-
-//   handleTextChange(e) {
-//     this.props.handleTextChange(e.target.value);
-//   }
-
-//   handleCheckboxChange(e) {
-//     this.props.handleCheckboxChange(e.target.checked);
-//   }
-
-//   render() {
-//     return (
-
-//         <Form>
-//         <Form.Field>
-//           Selected value: <b>{this.state.value}</b>
-//         </Form.Field>
-//         <Form.Field>
-//           <Checkbox
-//             label='Choose this'
-//             name='checkboxRadioGroup'
-//             value='this'
-//             checked={this.state.value === 'this'}
-//             onChange={this.handleChange}
-//           />
-//         </Form.Field>
-//         <Form.Field>
-//           <Checkbox
-//             label='Or that'
-//             name='checkboxRadioGroup'
-//             value='that'
-//             checked={this.state.value === 'that'}
-//             onChange={this.handleChange}
-//           />
-//         </Form.Field>
-//       </Form>
-//     );
-//   }
-// }
 
 export default class Filter extends Component {
     constructor(props) {
-        super(props);
-        this.state = {
-            selectedBrands: []
-        };
+        super(props); 
         }
     
-    handleChange = (e, { value }) => this.setState({ value, selectedBrands: [...this.state.selectedBrands, value] })
 
     render() {
-        console.log("state", this.props.uniqueBrands)
         return (
-            // <div>
-                this.props.uniqueBrands.map(brand => {    
+                this.props.options.map(option => {    
                     return(
                         <Container>
                             <div className="brand-div">
                             <Form>
                                 <Form.Field>
                                     <Checkbox
-                                    label={`${brand}`}
+                                    label={`${option}`}
                                     name='brandGroup'
-                                    value={`${brand}`}
-                                    // checked={this.state.value === `${brand}`}
-                                    onChange={this.handleChange}
+                                    value={`${option}`}
+                                    onClick={(e) => this.props.filterItemHandler(e,`${option}`, this.props.type,this.props.number )}  
                                     />
                                 </Form.Field>
                             </Form>
-                                {/* <Checkbox label={`${brand}`} />  */}
-
                             </div>
                         </Container>
                     )
                     
                 })
-            // </div>
             );  
     }
 
 
 }
-
-{/* <Container>
-<Dropdown placeholder='Brands' fluid multiple selection options={this.props.uniqueBrands} />
-
-</Container> */}
-
-//   <Form>
-//                 {/* <Form.Field>
-//                     Selected value: <b>{this.state.value}</b>
-//                 </Form.Field> */}
-//             <Form.Field>
-//                 <Checkbox
-//                 label={brand}
-//                 name='checkboxRadioGroup'
-//                 value='this'
-//                 // checked={this.state.value === 'this'}
-//                 // onChange={this.handleChange}
-//                 />
-//             </Form.Field>
-//             {/* <Form.Field>
-//                 <Checkbox
-//                 label='Or that'
-//                 name='checkboxRadioGroup'
-//                 value='that'
-//                 checked={this.state.value === 'that'}
-//                 onChange={this.handleChange}
-//                 />
-//             </Form.Field> */}
-//             </Form>
