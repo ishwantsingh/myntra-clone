@@ -10,16 +10,19 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
+  background-color: white;
   .Loader {
     position: fixed;
     left: 15vw;
     top: 8vh;
-    width: 100%;
-    height: 100%;
     z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 90vw;
+    height: 100vh;
+    background-color: white;
+    margin-left: -15rem;
  }
 `;
 
@@ -31,10 +34,7 @@ const Spinner = () => {
     return (
         <Container>
             <div className="Loader">
-                {/* <Dimmer active inverted > */}
-                    {/* <Loader active inverted /> */}
                     <Image src={Spinnerz}/>
-                {/* </Dimmer> */}
             </div>
       </Container> 
     )

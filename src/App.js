@@ -9,10 +9,6 @@ import HeadBar from "./components/headbar/HeadBar";
 import Item from "./components/shop/Item";
 import Spinner from "./components/Spinner";
 
-import { Reset } from 'styled-reset'
-// import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
-// import 'semantic-ui-css/semantic.min.css';
-
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -193,16 +189,15 @@ class App extends Component {
         <ShopContainer>
           <FilterBar filterItemHandler={this.filterItemHandler} uniqueBrands={this.state.uniqueBrands} uniqueGenders={this.state.uniqueGenders} uniqueCategories={this.state.uniqueCategories} uniqueSeasons={this.state.uniqueSeasons}/>
 
-          {this.state.loading? <Spinner /> : 
+          {this.state.loading? 
+          <Spinner /> 
+          : 
   <Route exact path="/" render={(props) => (<Shop  {...props} items={ this.state.searchItems.length > 0
                   ? this.state.searchItems
                   : this.state.items} />)} />
                  } 
-          {/* <Route exact path="/" render={(props) => (<Shop  {...props} loading={this.state.loading} items={ this.state.searchItems.length > 0
-                  ? this.state.searchItems
-                  : this.state.items} />)} /> */}
 
-          <Route path="/item/:itemId" render={(props) => (<Item  {...props} items={this.state.items} />)} />
+          <Route path="/item/:itemId" render={(props) => (<Item  {...props} loading={this.state.loading} items={this.state.items} />)} />
         </ShopContainer>
       </Container>
     );
